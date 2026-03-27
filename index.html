@@ -730,6 +730,29 @@ footer {
   .country-grid { grid-template-columns:1fr; }
 }
 
+/* ── NAVIGATION BAR ── */
+.main-nav{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+.nav-inner{max-width:1320px;margin:0 auto;padding:0 28px;height:50px;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:var(--head);font-size:15px;font-weight:900;color:#fff;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:10px;}
+.nav-brand::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.5s ease-in-out infinite;}
+.nav-right{display:flex;align-items:center;gap:6px;}
+.nav-link{font-family:var(--mono);font-size:11px;color:var(--muted);padding:6px 14px;border-radius:3px;transition:all .15s;text-decoration:none;}
+.nav-link:hover,.nav-link.active{color:var(--text);background:rgba(255,255,255,.05);}
+.lang-select{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:3px;padding:5px 10px;cursor:pointer;outline:none;}
+.lang-select:focus{border-color:var(--blue);}
+@media(max-width:640px){.nav-link{padding:6px 8px;font-size:10px;}.nav-inner{padding:0 16px;}}
+
+/* ── FOOTER REDESIGN ── */
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;text-align:left;margin-bottom:28px;}
+.footer-brand{font-family:var(--head);font-size:14px;font-weight:900;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.footer-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.footer-heading{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;margin-bottom:12px;}
+.footer-col a{display:block;font-size:12px;color:var(--muted);margin-bottom:8px;transition:color .15s;}
+.footer-col a:hover{color:var(--blue);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:18px;font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:24px;}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:20px;}}
+
 /* ── COOKIE CONSENT BANNER ── */
 .cookie-banner {
   position:fixed;bottom:0;left:0;right:0;
@@ -753,6 +776,38 @@ footer {
 </style>
 </head>
 <body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Iran Crisis Tracker</a>
+    <div class="nav-right">
+      <a href="/" class="nav-link active">Live Tracker</a>
+      <a href="/about.html" class="nav-link">About</a>
+      <a href="/contact.html" class="nav-link">Contact</a>
+      <select class="lang-select" id="lang-select" onchange="translatePage(this.value)">
+        <option value="">EN</option>
+        <option value="it">IT</option>
+        <option value="de">DE</option>
+        <option value="fr">FR</option>
+        <option value="es">ES</option>
+        <option value="pt">PT</option>
+        <option value="ar">AR</option>
+        <option value="zh-CN">ZH</option>
+        <option value="ja">JA</option>
+        <option value="ko">KO</option>
+        <option value="hi">HI</option>
+        <option value="ru">RU</option>
+        <option value="tr">TR</option>
+        <option value="pl">PL</option>
+        <option value="nl">NL</option>
+      </select>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ Google Translate (hidden widget, triggered by lang selector) ═══ -->
+<div id="google_translate_element" style="display:none"></div>
 
 <!-- ════════════════════════════════════════
      LIVE HEADLINES TICKER
@@ -1012,64 +1067,88 @@ footer {
       <div style="padding:14px 14px 14px 10px">
         <div class="timeline" id="timeline">
           <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">FEB 28, 2026</div>
-            <div class="tl-title">Operation Epic Fury launched</div>
-            <div class="tl-body">US &amp; Israel strike Iran. Brent surges 10–13%. Markets crash globally.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">MAR 1–2, 2026</div>
-            <div class="tl-title">Hormuz closed + Qatar force majeure</div>
-            <div class="tl-body">IRGC closes strait. Drones hit Ras Laffan. EU gas +50% in one day.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">MAR 2–4, 2026</div>
-            <div class="tl-title">Gulf infrastructure struck</div>
-            <div class="tl-body">Ras Tanura (SA), Ruwais (UAE), Bapco (Bahrain), KPC all shut.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">MAR 6–9, 2026</div>
-            <div class="tl-title">Asia emergency measures</div>
-            <div class="tl-body">Philippines 4-day week. Bangladesh rationing. Japan 80M barrel release. KOSPI −6%.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">MAR 12–15, 2026</div>
-            <div class="tl-title">India LPG crisis / Australia</div>
-            <div class="tl-body">India redirects LPG to households. 220K Indians repatriated. Australia relaxes fuel standards.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">MAR 19, 2026</div>
-            <div class="tl-title">Brent peaks $119/bbl</div>
-            <div class="tl-body">IEA: −11M bbl/day — worst oil drop in history. PHP hits record low.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">MAR 23–24, 2026</div>
-            <div class="tl-title">$580M insider trading scandal</div>
-            <div class="tl-body">FT: bet placed 15 min before Trump ceasefire signal. Philippines declares energy emergency.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-date">MAR 25–26, 2026</div>
-            <div class="tl-title">UN Security Council emergency session</div>
-            <div class="tl-body">UN calls for immediate humanitarian corridor through Hormuz. Russia and China abstain. G7 pledges additional 120M bbl reserve release.</div>
+            <div class="tl-dot" style="background:var(--amber)"></div>
+            <div class="tl-date">MAR 27, 2026 — TODAY</div>
+            <div class="tl-title">Fertilizer crisis deepens · Ceasefire talks stall</div>
+            <div class="tl-body">WFP warns of mass crop failures across South Asia and East Africa. US-Iran backchannel negotiations via Oman reported but unconfirmed. Brent holds above $110. Ethiopia declares national food emergency. India bans urea exports.</div>
           </div>
           <div class="tl-item">
             <div class="tl-dot"></div>
             <div class="tl-date">MAR 26, 2026</div>
-            <div class="tl-title">EU activates emergency energy solidarity</div>
-            <div class="tl-body">EU triggers Article 122 emergency. Germany restarts coal plants. France offers nuclear electricity exports. TTF gas hits record highs.</div>
+            <div class="tl-title">EU activates Article 122 emergency energy solidarity</div>
+            <div class="tl-body">European Commission triggers emergency solidarity mechanism. Germany orders restart of 3 coal plants. France offers nuclear electricity exports to neighbors. TTF gas hits &euro;85/MWh — highest since 2022 crisis. Netherlands opens Groningen strategic discussions.</div>
           </div>
           <div class="tl-item">
-            <div class="tl-dot" style="background:var(--amber)"></div>
-            <div class="tl-date">MAR 27, 2026 — TODAY</div>
-            <div class="tl-title">Fertilizer crisis deepens · Ceasefire talks stall</div>
-            <div class="tl-body">WFP warns of mass crop failures across South Asia and East Africa. US-Iran backchannel negotiations via Oman reported but unconfirmed. Brent holds above $110.</div>
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 25–26, 2026</div>
+            <div class="tl-title">UN Security Council emergency session on Hormuz</div>
+            <div class="tl-body">UN Resolution draft demands immediate humanitarian corridor for energy shipments through the Strait. Russia and China abstain; 13 votes in favor. G7 pledges additional 120M bbl coordinated reserve release. IAEA warns of nuclear plant fuel disruptions in South Asia.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 23–24, 2026</div>
+            <div class="tl-title">$580M insider trading scandal · Philippines emergency</div>
+            <div class="tl-body">Financial Times reports massive options bet placed 15 minutes before Trump ceasefire signal — SEC and DOJ launch joint investigation. Philippines becomes first nation to declare formal national energy emergency. Manila imposes mandatory 4-day work week for government and private sector.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 20–22, 2026</div>
+            <div class="tl-title">Global markets meltdown · Fertilizer crisis emerges</div>
+            <div class="tl-body">S&amp;P 500 enters correction territory (−12% from Feb high). Urea prices surge past $700/ton (+50%). QAFCO (Qatar's fertilizer giant) declares force majeure on all urea contracts. Spring planting season at risk across South Asia, East Africa, and Southeast Asia. World Bank estimates $2.4T global GDP impact.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 19, 2026</div>
+            <div class="tl-title">Brent crude peaks at $119/bbl — historic high</div>
+            <div class="tl-body">IEA confirms −11M bbl/day supply loss — the worst single disruption in oil market history, surpassing 1990 Iraq invasion. Philippine peso (PHP) hits all-time low vs USD. South Korea's KOSPI circuit breaker triggered for second time. Gold breaks $2,800/oz.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 15–18, 2026</div>
+            <div class="tl-title">IEA releases 400M barrels from strategic reserves</div>
+            <div class="tl-body">Largest coordinated reserve release in IEA history. US contributes 180M bbl from SPR. Japan, South Korea, Germany, France follow. Prices dip briefly to $108 before rebounding. OPEC+ emergency meeting fails to agree on production increase — Saudi and UAE capacity already damaged.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 12–15, 2026</div>
+            <div class="tl-title">India LPG crisis · Australia fuel standards · Mass repatriation</div>
+            <div class="tl-body">India activates emergency powers to redirect LPG from industrial to household use. 220,000 Indian workers repatriated from Gulf states. Australia temporarily relaxes fuel quality standards to accept non-standard crude imports. South Korea imposes first fuel price cap in 30 years. Slovenia begins fuel rationing.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 9–11, 2026</div>
+            <div class="tl-title">China halts fuel exports · Thailand oil ban</div>
+            <div class="tl-body">China's State Council orders immediate suspension of all refined fuel exports to secure domestic supply. Thailand bans crude oil re-exports. Vietnam mandates work-from-home for non-essential government workers. Nepal rations cooking gas — 2-cylinder monthly limit per household. Cambodia suspends all non-essential vehicle use in Phnom Penh.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 6–9, 2026</div>
+            <div class="tl-title">Asia-wide emergency measures cascade</div>
+            <div class="tl-body">Philippines mandates 4-day work week. Bangladesh imposes strict fuel rationing with troops deployed at depots; universities closed indefinitely. Japan releases 80M barrels — largest SPR draw in Japanese history. KOSPI crashes −6.2% in single session. Sri Lanka reintroduces 2022-era fuel queues and ration cards. Myanmar orders alternating driving days.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 4–5, 2026</div>
+            <div class="tl-title">Force majeure cascade · Insurance markets freeze</div>
+            <div class="tl-body">Kuwait Petroleum Corp declares force majeure on all crude exports. Lloyd's of London suspends new marine insurance for Persian Gulf transit — effectively closing the strait to commercial shipping. Bahrain's BAPCO refinery offline. Asian petrochemical firms begin declaring force majeure in wave.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 2–4, 2026</div>
+            <div class="tl-title">Gulf energy infrastructure under sustained attack</div>
+            <div class="tl-body">IRGC drone and missile strikes damage Saudi Aramco's Ras Tanura terminal (world's largest oil export facility), UAE's ADNOC Ruwais complex, and Bahrain's BAPCO refinery. KPC storage facilities hit. Combined damage takes 4.2M bbl/day of refining capacity offline. Brent crosses $105.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 1–2, 2026</div>
+            <div class="tl-title">Strait of Hormuz closed · Qatar force majeure</div>
+            <div class="tl-body">IRGC Navy deploys mines and fast-attack craft across the strait. Shipping traffic collapses from 130 to ~5 vessels per day. Iranian drones strike Qatar's Ras Laffan LNG complex — 20% of global LNG output halted. QatarEnergy declares force majeure on all LNG contracts. EU TTF gas surges +50% in single trading session.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">FEB 28, 2026</div>
+            <div class="tl-title">Operation Epic Fury — US &amp; Israel strike Iran</div>
+            <div class="tl-body">Coordinated US-Israel military strikes hit Iranian nuclear facilities, IRGC bases, and air defense networks across 14 provinces. Iran vows "devastating retaliation." Brent crude surges 10–13% in overnight trading. Global equity markets flash-crash — Dow drops 1,200 points. Gold +4%. US dollar strengthens sharply.</div>
           </div>
         </div>
       </div>
@@ -1130,26 +1209,38 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <!-- ═══ EZOIC AD — FOOTER (placeholder 106) ═══ -->
     <div style="text-align:center;margin-bottom:18px">
       <div id="ezoic-pub-ad-placeholder-106" class="ez-slot"></div>
     </div>
-    <p>
-      <strong style="color:#9aa">Iran War 2026 — Global Energy Crisis Tracker</strong><br>
-      Auto-refreshes every 5 minutes from global news sources<br>
-      Data: <a href="https://www.gdeltproject.org" rel="noopener">GDELT</a> ·
-      <a href="https://news.google.com" rel="noopener">Google News</a> ·
-      <a href="https://www.aljazeera.com" rel="noopener">Al Jazeera</a> ·
-      <a href="https://www.bbc.com/news" rel="noopener">BBC World</a> ·
-      <a href="https://finance.yahoo.com" rel="noopener">Yahoo Finance</a><br>
-      Not financial advice. Prices and information are for informational purposes only.<br>
-      <a href="/about.html">About</a> ·
-      <a href="/privacy.html">Privacy Policy</a> ·
-      <a href="/cookies.html">Cookie Policy</a> ·
-      <a href="/terms.html">Terms of Use</a> ·
-      <a href="/contact.html">Contact</a> ·
-      <a href="/sitemap.xml">Sitemap</a>
-    </p>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">Iran Crisis Tracker</div>
+        <p class="footer-desc">Real-time tracking of the 2026 energy crisis. Auto-updated every 5 minutes from global news sources. Not financial advice.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-heading">Data Sources</div>
+        <a href="https://www.gdeltproject.org" rel="noopener" target="_blank">GDELT Project</a>
+        <a href="https://news.google.com" rel="noopener" target="_blank">Google News</a>
+        <a href="https://www.aljazeera.com" rel="noopener" target="_blank">Al Jazeera</a>
+        <a href="https://www.bbc.com/news" rel="noopener" target="_blank">BBC World</a>
+        <a href="https://finance.yahoo.com" rel="noopener" target="_blank">Yahoo Finance</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-heading">Legal</div>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/cookies.html">Cookie Policy</a>
+        <a href="/terms.html">Terms of Use</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-heading">Site</div>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/sitemap.xml">Sitemap</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Iran Crisis Tracker. Prices and information are for informational purposes only. This is not financial, investment, or trading advice.
+    </div>
   </div>
 </footer>
 
@@ -1173,10 +1264,8 @@ footer {
 
 /* ─── CONFIG ─── */
 const REFRESH_MS      = 5 * 60 * 1000;  // 5 min
-const CORS_PROXY      = 'https://api.allorigins.win/get?url=';
-const CORS_PROXY_ALT  = 'https://corsproxy.io/?';
 const MAX_ARTICLES    = 80;
-const CACHE_KEY       = 'iran_tracker_v3';
+const CACHE_KEY       = 'iran_tracker_v4';
 
 /* ─── COUNTRIES dictionary ─── */
 const COUNTRIES = {
@@ -1297,14 +1386,37 @@ function loadCache() {
   } catch { return null; }
 }
 
+/* ─── PROXY FALLBACK ─── */
+async function fetchViaProxy(url, timeout=12000) {
+  // 1. Try direct (for CORS-native APIs)
+  try {
+    const r = await fetch(url, {signal: AbortSignal.timeout(timeout)});
+    if (r.ok) return await r.text();
+  } catch {}
+  // 2. Try corsproxy.io (returns raw response)
+  try {
+    const r = await fetch('https://corsproxy.io/?' + encodeURIComponent(url), {signal: AbortSignal.timeout(timeout)});
+    if (r.ok) return await r.text();
+  } catch {}
+  // 3. Try allorigins.win (returns JSON wrapper)
+  try {
+    const r = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url), {signal: AbortSignal.timeout(timeout)});
+    const d = await r.json();
+    if (d.contents) return d.contents;
+  } catch {}
+  // 4. Try api.codetabs.com
+  try {
+    const r = await fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url), {signal: AbortSignal.timeout(timeout)});
+    if (r.ok) return await r.text();
+  } catch {}
+  throw new Error('All proxies failed for ' + url);
+}
+
 /* ─── PRICE FETCHING ─── */
 async function fetchPrice(symbol) {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=2d`;
-  // Try allorigins proxy
-  const proxyUrl = CORS_PROXY + encodeURIComponent(url);
-  const r = await fetch(proxyUrl, {signal: AbortSignal.timeout(12000)});
-  const outer = await r.json();
-  const parsed = JSON.parse(outer.contents);
+  const raw = await fetchViaProxy(url);
+  const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
   const meta = parsed.chart.result[0].meta;
   return {
     value: meta.regularMarketPrice,
@@ -1356,8 +1468,8 @@ function renderPrices(p) {
 /* ─── NEWS FETCHING ─── */
 async function fetchGDELT(query, days=2, n=25) {
   const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=artlist&maxrecords=${n}&format=json&timespan=${days}d&sort=date`;
-  const r = await fetch(url, {signal: AbortSignal.timeout(15000)});
-  const data = await r.json();
+  const raw = await fetchViaProxy(url, 15000);
+  const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
   return (data.articles || []).map(a => ({
     title:   a.title || '',
     url:     a.url || '#',
@@ -1369,10 +1481,8 @@ async function fetchGDELT(query, days=2, n=25) {
 }
 
 async function fetchRSS(feedUrl, sourceName) {
-  const proxyUrl = CORS_PROXY + encodeURIComponent(feedUrl);
-  const r = await fetch(proxyUrl, {signal: AbortSignal.timeout(15000)});
-  const outer = await r.json();
-  const xml = new DOMParser().parseFromString(outer.contents, 'text/xml');
+  const raw = await fetchViaProxy(feedUrl, 15000);
+  const xml = new DOMParser().parseFromString(raw, 'text/xml');
   const items = [...xml.querySelectorAll('item')];
   const KEYWORDS = /iran|hormuz|oil|energy|fuel|gas|fertiliz|food crisis|war|gulf|brent|opec|ration/i;
   return items.slice(0,20).filter(i => {
@@ -1381,7 +1491,7 @@ async function fetchRSS(feedUrl, sourceName) {
     return KEYWORDS.test(t + d);
   }).map(i => {
     const title   = stripHtml(i.querySelector('title')?.textContent || '');
-    const snippet = stripHtml(i.querySelector('description')?.textContent || '').slice(0,200);
+    const snippet = stripHtml(i.querySelector('description')?.textContent || '').slice(0,500);
     const url     = i.querySelector('link')?.textContent?.trim() || '#';
     const pubDate = i.querySelector('pubDate')?.textContent || '';
     return {
@@ -1406,7 +1516,7 @@ function renderNews(articles) {
     const tags = (a.countries||[]).slice(0,5).map(c => `<span class="nc-tag">${c}</span>`).join('');
     const src  = a.source || '';
     const ago  = a.ts ? timeAgo(a.ts) : '';
-    const snip = (a.snippet||'').slice(0,160);
+    const snip = (a.snippet||'').slice(0,500);
     return `<article class="news-card">
       <span class="nc-source">${src}</span><span class="nc-age">${ago}</span>
       <a href="${a.url}" class="nc-title" target="_blank" rel="noopener noreferrer">${a.title}</a>
@@ -1588,6 +1698,34 @@ function handleCookieConsent(accepted) {
   document.getElementById('cookie-banner').classList.remove('show');
   if (accepted) loadEzoic();
 }
+
+/* ─── TRANSLATION ─── */
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage:'en',autoDisplay:false},'google_translate_element');
+}
+function translatePage(lang) {
+  if (!lang) {
+    // Reset to English: remove Google Translate cookie and reload
+    document.cookie = 'googtrans=;expires=Thu,01 Jan 1970 00:00:00 UTC;path=/';
+    document.cookie = 'googtrans=;expires=Thu,01 Jan 1970 00:00:00 UTC;path=/;domain=.' + location.hostname;
+    location.reload();
+    return;
+  }
+  document.cookie = 'googtrans=/en/' + lang + ';path=/';
+  document.cookie = 'googtrans=/en/' + lang + ';path=/;domain=.' + location.hostname;
+  // Load Google Translate if not loaded
+  if (!window.google || !google.translate) {
+    var s = document.createElement('script');
+    s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    document.head.appendChild(s);
+  } else {
+    location.reload();
+  }
+}
+// Auto-load Google Translate engine (hidden) so language switch is instant
+(function(){var s=document.createElement('script');s.src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';document.head.appendChild(s);})();
+// Hide Google Translate banner
+var css=document.createElement('style');css.textContent='.goog-te-banner-frame,.skiptranslate{display:none!important;}body{top:0!important;}';document.head.appendChild(css);
 
 function loadEzoic() {
   if (document.getElementById('ezoic-script')) return;
