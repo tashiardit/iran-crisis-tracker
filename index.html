@@ -1767,8 +1767,8 @@ function renderCountries(articles) {
   });
 
   // Merge with all known countries (even if 0 count)
-  // Ensure all countries in COUNTRIES dict show up even with 0 mentions
-  Object.keys(COUNTRIES).forEach(c => { if (!cmap[c]) cmap[c] = {count:0,articles:[]}; });
+  // Add countries with known risk even if 0 mentions (skip unrated empty ones)
+  Object.keys(COUNTRIES).forEach(c => { if (!cmap[c] && RISK[c]) cmap[c] = {count:0,articles:[]}; });
 
   const sorted = Object.entries(cmap)
     .sort(([,a],[,b]) => b.count - a.count);
@@ -1842,18 +1842,31 @@ async function runUpdate() {
   ];
 
   const rssSources = [
-    // Google News — energy & war
+    // Google News — energy & war core
     ['https://news.google.com/rss/search?q=Iran+war+energy+crisis+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
     ['https://news.google.com/rss/search?q=Strait+Hormuz+oil+tanker+shipping&hl=en&gl=US&ceid=US:en', 'Google News'],
     ['https://news.google.com/rss/search?q=Iran+war+food+fertilizer+shortage+famine&hl=en&gl=US&ceid=US:en', 'Google News'],
-    // Google News — regional coverage
-    ['https://news.google.com/rss/search?q=Iran+war+energy+Asia+rationing&hl=en&gl=US&ceid=US:en', 'Google News'],
-    ['https://news.google.com/rss/search?q=Iran+war+energy+Europe+gas+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
-    ['https://news.google.com/rss/search?q=Iran+war+energy+Africa+fuel+shortage&hl=en&gl=US&ceid=US:en', 'Google News'],
     ['https://news.google.com/rss/search?q=oil+price+crisis+country+emergency+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
-    // Google News — food & inflation
     ['https://news.google.com/rss/search?q=food+crisis+inflation+wheat+rice+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
     ['https://news.google.com/rss/search?q=food+rationing+famine+shortage+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
+    // Google News — per-region energy crisis
+    ['https://news.google.com/rss/search?q=Japan+South+Korea+energy+crisis+fuel+rationing&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Philippines+Indonesia+Malaysia+Thailand+energy+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=India+Pakistan+Bangladesh+Sri+Lanka+fuel+shortage&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Germany+France+UK+Europe+gas+energy+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Nigeria+South+Africa+Kenya+Ethiopia+fuel+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Brazil+Mexico+Argentina+Colombia+fuel+energy+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Australia+New+Zealand+energy+fuel+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Turkey+Egypt+Jordan+Lebanon+energy+fuel+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=China+Taiwan+Singapore+Vietnam+energy+oil+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Poland+Romania+Hungary+Czech+energy+gas+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Nepal+Myanmar+Cambodia+Laos+fuel+rationing+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Saudi+Arabia+UAE+Kuwait+Qatar+Bahrain+oil+war&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Ukraine+Russia+oil+gas+energy+sanctions+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Sudan+Somalia+DR+Congo+Ghana+oil+food+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Venezuela+Cuba+Peru+Chile+Ecuador+fuel+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Norway+Sweden+Denmark+Finland+energy+oil+gas&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Iran+war+impact+global+economy+inflation+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
     // Wire services & major outlets
     ['https://www.aljazeera.com/xml/rss/all.xml', 'Al Jazeera'],
     ['https://feeds.bbci.co.uk/news/world/rss.xml', 'BBC World'],
