@@ -261,7 +261,9 @@ h1 .accent { color: var(--red); }
   gap: 32px;
   overflow-x: auto;
 }
-.price-inner::-webkit-scrollbar { display:none; }
+.price-inner::-webkit-scrollbar { height:4px; }
+.price-inner::-webkit-scrollbar-thumb { background:var(--border2);border-radius:2px; }
+.price-inner { scrollbar-width:thin;scrollbar-color:var(--border2) transparent;-webkit-overflow-scrolling:touch; }
 .price-block { flex-shrink:0; }
 .price-symbol {
   font-family: var(--mono);
@@ -721,6 +723,14 @@ footer {
 }
 .news-card { animation: flash-in .25s ease forwards; }
 
+/* ── PAGE VIEW TOGGLE ── */
+.view-toggle{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--card);}
+.view-btn{flex:1;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:12px 20px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;}
+.view-btn:hover{color:var(--text);background:rgba(255,255,255,.03);}
+.view-btn.active{background:rgba(60,143,223,.12);color:var(--blue);border-bottom:2px solid var(--blue);}
+.view-section{display:none;}
+.view-section.active{display:block;}
+
 /* ── MOBILE TWEAKS ── */
 @media(max-width:640px) {
   h1 { font-size:24px; }
@@ -728,6 +738,7 @@ footer {
   .price-val { font-size:16px; }
   .stats-grid { grid-template-columns:repeat(2,1fr); }
   .country-grid { grid-template-columns:1fr; }
+  .view-btn{font-size:9px;padding:10px 12px;}
 }
 
 /* ── NAVIGATION BAR ── */
@@ -904,6 +915,15 @@ footer {
   <!-- ═══ MAIN COLUMN ═══ -->
   <main class="main">
 
+    <!-- Page View Toggle -->
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="switchView('crisis')" id="btn-crisis">Key Crisis Indicators</button>
+      <button class="view-btn" onclick="switchView('countries')" id="btn-countries">Country Impact Tracker</button>
+    </div>
+
+    <!-- ═══ VIEW 1: KEY CRISIS INDICATORS ═══ -->
+    <div id="view-crisis" class="view-section active">
+
     <!-- Key Stats -->
     <div class="sec-head">
       <span class="sec-title">Key Crisis Indicators</span>
@@ -983,14 +1003,40 @@ footer {
       <div id="ezoic-pub-ad-placeholder-103" class="ez-slot"></div>
     </div>
 
+    </div><!-- END view-crisis -->
+
+    <!-- ═══ VIEW 2: COUNTRY IMPACT TRACKER ═══ -->
+    <div id="view-countries" class="view-section">
+
     <!-- Country Tracker -->
-    <div class="sec-head mt-section">
+    <div class="sec-head">
       <span class="sec-title">Country Impact Tracker</span>
       <span class="sec-count" id="country-sec-count">Detecting from news feed…</span>
     </div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:14px;font-family:var(--mono)">
-      New countries are detected automatically as they appear in the news feed. Sorted by mention frequency.
+      Countries are detected automatically from the news feed and sorted by mention frequency. Risk levels based on known government actions and energy dependency.
     </p>
+
+    <!-- Country filter stats -->
+    <div class="stats-grid" style="margin-bottom:20px">
+      <div class="stat-card sc-red">
+        <div class="stat-val" style="color:var(--red)" id="ct-critical">0</div>
+        <div class="stat-label">Critical Risk<br>Countries</div>
+      </div>
+      <div class="stat-card sc-amber">
+        <div class="stat-val" style="color:var(--amber)" id="ct-high">0</div>
+        <div class="stat-label">High Risk<br>Countries</div>
+      </div>
+      <div class="stat-card sc-teal">
+        <div class="stat-val" style="color:var(--teal)" id="ct-medium">0</div>
+        <div class="stat-label">Medium Risk<br>Countries</div>
+      </div>
+      <div class="stat-card sc-blue">
+        <div class="stat-val" style="color:var(--blue)" id="ct-total">0</div>
+        <div class="stat-label">Total Countries<br>Tracked</div>
+      </div>
+    </div>
+
     <div class="country-grid" id="country-grid">
       <!-- populated by JS -->
       <div class="skeleton-card" style="height:100px"></div>
@@ -998,6 +1044,8 @@ footer {
       <div class="skeleton-card" style="height:100px"></div>
       <div class="skeleton-card" style="height:100px"></div>
     </div>
+
+    </div><!-- END view-countries -->
 
     <!-- ═══ EZOIC AD — BELOW CONTENT (placeholder 105) ═══ -->
     <div style="text-align:center;margin:28px 0">
@@ -1387,29 +1435,31 @@ function loadCache() {
 }
 
 /* ─── PROXY FALLBACK ─── */
-async function fetchViaProxy(url, timeout=12000) {
-  // 1. Try direct (for CORS-native APIs)
+async function fetchViaProxy(url, timeout=15000) {
+  // 1. Try our Netlify serverless function (most reliable)
+  try {
+    const r = await fetch('/.netlify/functions/proxy?url=' + encodeURIComponent(url), {signal: AbortSignal.timeout(timeout)});
+    if (r.ok) return await r.text();
+  } catch {}
+  // 2. Try direct (for CORS-native APIs like GDELT)
   try {
     const r = await fetch(url, {signal: AbortSignal.timeout(timeout)});
     if (r.ok) return await r.text();
   } catch {}
-  // 2. Try corsproxy.io (returns raw response)
+  // 3. Try corsproxy.io as last fallback
   try {
     const r = await fetch('https://corsproxy.io/?' + encodeURIComponent(url), {signal: AbortSignal.timeout(timeout)});
     if (r.ok) return await r.text();
   } catch {}
-  // 3. Try allorigins.win (returns JSON wrapper)
-  try {
-    const r = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url), {signal: AbortSignal.timeout(timeout)});
-    const d = await r.json();
-    if (d.contents) return d.contents;
-  } catch {}
-  // 4. Try api.codetabs.com
-  try {
-    const r = await fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url), {signal: AbortSignal.timeout(timeout)});
-    if (r.ok) return await r.text();
-  } catch {}
   throw new Error('All proxies failed for ' + url);
+}
+
+/* ─── VIEW SWITCHING ─── */
+function switchView(view) {
+  document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.getElementById('btn-' + view).classList.add('active');
 }
 
 /* ─── PRICE FETCHING ─── */
@@ -1549,8 +1599,18 @@ function renderCountries(articles) {
     .slice(0,36);
 
   countryMentions = Object.fromEntries(sorted.map(([c,v]) => [c, v.count]));
-  document.getElementById('country-count').textContent = Object.values(countryMentions).filter(v=>v>0).length;
-  document.getElementById('country-sec-count').textContent = `${sorted.length} countries tracked · ${Object.values(countryMentions).filter(v=>v>0).length} with live news`;
+  const liveCount = Object.values(countryMentions).filter(v=>v>0).length;
+  document.getElementById('country-count').textContent = liveCount;
+  document.getElementById('country-sec-count').textContent = `${sorted.length} countries tracked · ${liveCount} with live news`;
+
+  // Update country stats cards
+  const critCount = sorted.filter(([c]) => RISK[c] === 'red').length;
+  const highCount = sorted.filter(([c]) => RISK[c] === 'amber').length;
+  const medCount = sorted.filter(([c]) => RISK[c] === 'teal').length;
+  const ctCrit = document.getElementById('ct-critical'); if (ctCrit) ctCrit.textContent = critCount;
+  const ctHigh = document.getElementById('ct-high'); if (ctHigh) ctHigh.textContent = highCount;
+  const ctMed = document.getElementById('ct-medium'); if (ctMed) ctMed.textContent = medCount;
+  const ctTotal = document.getElementById('ct-total'); if (ctTotal) ctTotal.textContent = sorted.length;
 
   const riskCls = r => ({red:'badge-red',amber:'badge-amber',teal:'badge-teal'}[r] || 'badge-gray');
   const riskLabel = c => {
@@ -1682,6 +1742,14 @@ function startCountdown() {
   // Fetch fresh data
   await runUpdate();
   startCountdown();
+
+  // Fallback: if no data after 30s, show a message
+  setTimeout(() => {
+    if (allArticles.length === 0) {
+      setStatus('Unable to load live data — please refresh or check your connection.', 'error');
+      document.getElementById('news-list').innerHTML = '<div style="font-family:var(--mono);font-size:12px;color:var(--muted);padding:24px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:4px;">Unable to load live data. This may be due to network issues. Please refresh the page or try again later.</div>';
+    }
+  }, 30000);
 
   // ─── COOKIE CONSENT + EZOIC ───
   const consent = localStorage.getItem('cookie_consent');
