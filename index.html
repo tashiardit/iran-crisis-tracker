@@ -744,12 +744,18 @@ footer {
 
 /* ── MOBILE TWEAKS ── */
 @media(max-width:640px) {
-  h1 { font-size:24px; }
-  .price-inner { gap:20px; }
+  h1 { font-size:22px; }
+  .price-inner { gap:16px; }
   .price-val { font-size:16px; }
+  .price-symbol { font-size:8px; }
   .stats-grid { grid-template-columns:repeat(2,1fr); }
   .country-grid { grid-template-columns:1fr; }
   .view-btn{font-size:9px;padding:10px 12px;}
+  .status-bar { flex-wrap:wrap; gap:4px 8px; font-size:10px; padding:10px 14px; }
+  .food-panel { padding:14px 16px; }
+  .food-price { font-size:18px; }
+  .food-grid { grid-template-columns:1fr 1fr; }
+  .food-alert { font-size:10px; }
 }
 
 /* ── NAVIGATION BAR ── */
@@ -762,7 +768,12 @@ footer {
 .nav-link:hover,.nav-link.active{color:var(--text);background:rgba(255,255,255,.05);}
 .lang-select{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:3px;padding:5px 10px;cursor:pointer;outline:none;}
 .lang-select:focus{border-color:var(--blue);}
-@media(max-width:640px){.nav-link{padding:6px 8px;font-size:10px;}.nav-inner{padding:0 16px;}}
+@media(max-width:640px){
+  .nav-inner{padding:0 12px;height:44px;}
+  .nav-brand{font-size:11px;letter-spacing:1px;gap:6px;white-space:nowrap;}
+  .nav-link{padding:4px 6px;font-size:9px;}
+  .lang-select{font-size:9px;padding:3px 6px;}
+}
 
 /* ── FOOTER REDESIGN ── */
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;text-align:left;margin-bottom:28px;}
