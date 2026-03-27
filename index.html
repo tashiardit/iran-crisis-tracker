@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- ═══ SEO META ═══ -->
+<title>Iran War 2026 — Live Energy Crisis Tracker | Strait of Hormuz Oil Prices</title>
+<meta name="description" content="Live real-time tracking of the 2026 Iran War energy crisis. Strait of Hormuz closure, Brent crude prices, country-by-country fuel rationing, fertilizer shortage, and food supply chain disruption. Updated every 5 minutes.">
+<meta name="keywords" content="Iran war 2026,energy crisis,Strait of Hormuz,oil price today,food crisis 2026,fertilizer shortage,LNG crisis,Iran war countries,Hormuz closure,fuel rationing,Qatar force majeure,Brent crude">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<meta name="author" content="Iran Crisis Tracker">
+<link rel="canonical" href="https://iran-crisis-tracker.netlify.app/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Iran War 2026 — Live Energy Crisis Tracker">
+<meta property="og:description" content="Real-time Strait of Hormuz closure tracking, oil prices, country energy restrictions and food crisis updates. Auto-updated every 5 minutes from global sources.">
+<meta property="og:url" content="https://iran-crisis-tracker.netlify.app/">
+<meta property="og:site_name" content="Iran Crisis Tracker">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Iran War 2026 — Live Energy Crisis Tracker">
+<meta name="twitter:description" content="Real-time oil prices, Hormuz status, country-by-country fuel rationing & food crisis. Auto-updates every 5 min.">
+
+<!-- Schema.org structured data -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebPage",
+  "name":"Iran War 2026 — Live Energy Crisis Tracker",
+  "description":"Real-time tracking of the 2026 Iran War energy crisis, Strait of Hormuz closure, oil and gas prices, country fuel rationing, fertilizer shortages and food supply chain disruptions.",
+  "url":"https://iran-crisis-tracker.netlify.app/",
+  "dateModified":"2026-03-27",
+  "publisher":{"@type":"Organization","name":"Iran Crisis Tracker"},
+  "about":{"@type":"Event","name":"2026 Iran War Energy Crisis","startDate":"2026-02-28"}
+}
+</script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Ezoic: loaded conditionally after cookie consent -->
+<script>var ezoicSiteId = 'XXXXXXX';</script>
+
+<style>
+/* ══════════════════════════════════════════
+   DESIGN SYSTEM — Intelligence Terminal Aesthetic
+   Barlow Condensed headlines + DM Mono data
+══════════════════════════════════════════ */
+:root {
+  --bg:       #080a0c;
+  --bg2:      #0d1014;
+  --bg3:      #111518;
+  --card:     #131820;
+  --card2:    #181f28;
+  --glass:    rgba(255,255,255,0.03);
+  --border:   rgba(255,255,255,0.06);
+  --border2:  rgba(255,255,255,0.12);
+  --text:     #c8cdd6;
+  --muted:    #5a6272;
+  --muted2:   #7a8494;
+  --red:      #e03d3c;
+  --red2:     #ff5252;
+  --amber:    #f0a030;
+  --amber2:   #ffc24a;
+  --teal:     #20b584;
+  --blue:     #3c8fdf;
+  --blue2:    #64b0ff;
+  --coral:    #e06040;
+  --mono:     'DM Mono', monospace;
+  --head:     'Barlow Condensed', sans-serif;
+  --body:     'Barlow', sans-serif;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display:block; }
+
+/* ── SCANLINE TEXTURE ── */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events:none;
+  z-index:999;
+}
+
+/* ── LIVE TICKER ── */
+.ticker-bar {
+  background: #0e0303;
+  border-bottom: 1px solid rgba(224,61,60,0.2);
+  height: 34px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+.ticker-badge {
+  flex-shrink: 0;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  padding: 0 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.ticker-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  animation: blink 1.2s step-start infinite;
+}
+@keyframes blink { 50% { opacity:0; } }
+.ticker-track {
+  flex: 1;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 40px, black calc(100% - 40px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, black 40px, black calc(100% - 40px), transparent 100%);
+}
+.ticker-inner {
+  display: flex;
+  gap: 0;
+  animation: scroll-ticker 90s linear infinite;
+  white-space: nowrap;
+}
+@keyframes scroll-ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.ticker-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #888;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ticker-item::before { content:'//'; color: var(--red); opacity:.6; }
+
+/* ── HEADER ── */
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 0 24px;
+  position: relative;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left:0; right:0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red) 30%, var(--amber) 70%, transparent);
+  opacity: .4;
+}
+.header-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+.h-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.h-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--red);
+  background: rgba(224,61,60,.1);
+  border: 1px solid rgba(224,61,60,.25);
+  padding: 3px 12px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.h-status::before {
+  content:'';
+  width:5px; height:5px;
+  border-radius:50%;
+  background:var(--red);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+.h-date {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+h1 {
+  font-family: var(--head);
+  font-size: clamp(26px, 4vw, 48px);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -.5px;
+  line-height: 1.05;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+h1 .accent { color: var(--red); }
+.h-sub {
+  font-size: 14px;
+  color: var(--muted2);
+  max-width: 680px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.h-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.h-meta-item { display:flex; align-items:center; gap:6px; }
+.h-meta-item .dot { width:5px;height:5px;border-radius:50%; }
+
+/* ── PRICE STRIP ── */
+.price-strip {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+}
+.price-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 10px 28px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  overflow-x: auto;
+}
+.price-inner::-webkit-scrollbar { display:none; }
+.price-block { flex-shrink:0; }
+.price-symbol {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 1px;
+}
+.price-val {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+}
+.price-chg {
+  font-family: var(--mono);
+  font-size: 10px;
+  margin-top: 2px;
+}
+.chg-up { color: var(--red); }
+.chg-dn { color: var(--teal); }
+.price-divider { width:1px; height:36px; background:var(--border); flex-shrink:0; }
+.price-note {
+  margin-left:auto;
+  font-family:var(--mono);
+  font-size:9px;
+  color:var(--muted);
+  flex-shrink:0;
+  line-height:1.6;
+}
+
+/* ── EZOIC AD PLACEHOLDERS ── */
+.ez-slot {
+  min-height: 90px;
+  width: 100%;
+}
+.ez-slot-sidebar {
+  min-height: 250px;
+  width: 100%;
+}
+/* Fallback label while Ezoic loads */
+.ez-slot::before, .ez-slot-sidebar::before {
+  content: ' ';
+  display: block;
+}
+/* ── AD SLOT (keep for layout reference) ── */
+.ad-slot {
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed rgba(255,255,255,0.06);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+}
+.ad-banner { height: 90px; width: 100%; margin: 20px 0; }
+.ad-sidebar { height: 250px; width: 100%; }
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 28px 28px 80px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+}
+@media(max-width:960px) {
+  .page { grid-template-columns:1fr; padding:16px 16px 60px; }
+  .sidebar { order:99; }
+}
+.main { min-width:0; }
+.sidebar { display:flex; flex-direction:column; gap:18px; }
+
+/* ── SECTION HEADER ── */
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.sec-head + .sec-head { margin-top: 36px; }
+.sec-title {
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--muted2);
+}
+.sec-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+.mt-section { margin-top: 40px; }
+
+/* ── KEY STATS GRID ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.stat-card:hover { border-color: var(--border2); }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.sc-red::before { background: var(--red); }
+.sc-amber::before { background: var(--amber); }
+.sc-teal::before { background: var(--teal); }
+.sc-blue::before { background: var(--blue); }
+.stat-val {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--muted2);
+  line-height: 1.4;
+}
+.stat-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* ── NEWS CARDS ── */
+.news-list { display: flex; flex-direction: column; gap: 10px; }
+.news-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 0;
+  transition: border-color .15s, background .15s;
+  position: relative;
+}
+.news-card:hover { border-color: var(--border2); background: var(--card2); }
+.news-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--border2);
+  transition: background .2s;
+}
+.news-card:hover::before { background: var(--blue); }
+.nc-source {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--blue);
+  text-transform: uppercase;
+  grid-column: 1;
+}
+.nc-age {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
+}
+.nc-title {
+  grid-column: 1/-1;
+  grid-row: 2;
+  font-family: var(--head);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #d4d8e0;
+  margin: 5px 0 6px;
+  letter-spacing: .2px;
+}
+.nc-title:hover { color: #fff; }
+.nc-snippet {
+  grid-column: 1/-1;
+  grid-row: 3;
+  font-size: 12px;
+  color: var(--muted2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.nc-tags {
+  grid-column: 1/-1;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.nc-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: rgba(60,143,223,0.1);
+  color: var(--blue);
+  letter-spacing: .5px;
+}
+
+/* ── LOADING STATE ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--card) 25%, var(--card2) 50%, var(--card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  height: 14px;
+  margin-bottom: 8px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.skeleton-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+/* ── COUNTRY GRID ── */
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+.country-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.country-card:hover { border-color: var(--border2); }
+.cc-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.cc-name {
+  font-family: var(--head);
+  font-size: 16px;
+  font-weight: 700;
+  color: #dde;
+  letter-spacing: .3px;
+}
+.cc-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .8px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-top: 3px;
+  display: inline-block;
+}
+.badge-red    { background: rgba(224,61,60,.12); color:var(--red); border:1px solid rgba(224,61,60,.2); }
+.badge-amber  { background: rgba(240,160,48,.12); color:var(--amber); border:1px solid rgba(240,160,48,.2); }
+.badge-teal   { background: rgba(32,181,132,.12); color:var(--teal); border:1px solid rgba(32,181,132,.2); }
+.badge-gray   { background: rgba(90,98,114,.12); color:var(--muted2); border:1px solid rgba(90,98,114,.2); }
+.cc-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+.cc-body { padding: 10px 14px 12px; }
+.cc-link {
+  display: block;
+  font-size: 12px;
+  color: var(--muted2);
+  line-height: 1.45;
+  margin-bottom: 7px;
+  padding-left: 10px;
+  border-left: 2px solid var(--border);
+  transition: color .15s, border-color .15s;
+}
+.cc-link:hover { color: var(--text); border-left-color: var(--blue); }
+.cc-empty { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+/* ── SIDEBAR CARDS ── */
+.side-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.side-card-head {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.side-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.side-row:last-child { border-bottom: none; }
+.sr-label { color: var(--muted2); }
+.sr-val { font-family: var(--mono); font-size: 11px; font-weight: 500; }
+.sr-red    { color: var(--red); }
+.sr-amber  { color: var(--amber); }
+.sr-teal   { color: var(--teal); }
+.sr-blue   { color: var(--blue); }
+
+/* ── TIMELINE ── */
+.timeline { padding-left: 16px; }
+.tl-item {
+  position: relative;
+  padding-bottom: 20px;
+  padding-left: 16px;
+  border-left: 1px solid var(--border2);
+}
+.tl-item:last-child { border-left-color: transparent; padding-bottom:0; }
+.tl-dot {
+  position: absolute;
+  left: -5px;
+  top: 4px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 2px solid var(--bg);
+}
+.tl-date {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.tl-title {
+  font-family: var(--head);
+  font-size: 13px;
+  font-weight: 600;
+  color: #cdd;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+.tl-body { font-size: 11px; color: var(--muted2); line-height: 1.5; }
+
+/* ── ABOUT SEO BLOCK ── */
+.about-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 28px;
+  margin-top: 40px;
+}
+.about-block h2 {
+  font-family: var(--head);
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 14px;
+}
+.about-block h3 {
+  font-family: var(--head);
+  font-size: 16px;
+  font-weight: 700;
+  color: #bbc;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 20px 0 8px;
+}
+.about-block p {
+  font-size: 14px;
+  color: var(--muted2);
+  line-height: 1.75;
+  margin-bottom: 10px;
+  max-width: 720px;
+}
+.about-block strong { color: #c8d0dc; }
+
+/* ── STATUS BAR ── */
+.status-bar {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+.status-bar .live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 2s ease-in-out infinite;
+}
+#fetch-status { color: var(--teal); }
+#fetch-status.loading { color: var(--amber); }
+#fetch-status.error { color: var(--red); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 24px 28px;
+  text-align: center;
+}
+.footer-inner { max-width: 1320px; margin: 0 auto; }
+.footer-inner p {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.footer-inner a { color: var(--blue); }
+
+/* ── REFRESH FLASH ── */
+@keyframes flash-in {
+  from { opacity:0; transform:translateY(-4px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.news-card { animation: flash-in .25s ease forwards; }
+
+/* ── MOBILE TWEAKS ── */
+@media(max-width:640px) {
+  h1 { font-size:24px; }
+  .price-inner { gap:20px; }
+  .price-val { font-size:16px; }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .country-grid { grid-template-columns:1fr; }
+}
+
+/* ── COOKIE CONSENT BANNER ── */
+.cookie-banner {
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--card);
+  border-top:1px solid var(--border2);
+  padding:18px 28px;
+  z-index:1000;
+  display:none;
+  animation:slide-up .3s ease;
+}
+@keyframes slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.cookie-banner.show{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.cookie-text{flex:1;font-size:13px;color:var(--muted2);min-width:200px;line-height:1.6;}
+.cookie-text a{color:var(--blue);text-decoration:underline;}
+.cookie-btns{display:flex;gap:10px;flex-shrink:0;}
+.cookie-btn{font-family:var(--mono);font-size:11px;padding:9px 20px;border:none;border-radius:3px;cursor:pointer;letter-spacing:.5px;transition:opacity .15s;}
+.cookie-accept{background:var(--teal);color:#fff;}
+.cookie-reject{background:transparent;color:var(--muted2);border:1px solid var(--border2);}
+.cookie-btn:hover{opacity:.8;}
+@media(max-width:640px){.cookie-banner.show{flex-direction:column;text-align:center;}.cookie-btns{width:100%;justify-content:center;}}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     LIVE HEADLINES TICKER
+════════════════════════════════════════ -->
+<div class="ticker-bar">
+  <div class="ticker-badge"><span class="ticker-dot"></span> LIVE</div>
+  <div class="ticker-track">
+    <div class="ticker-inner" id="ticker">
+      <span class="ticker-item">Fetching latest headlines from global sources…</span>
+      <span class="ticker-item">Strait of Hormuz near-shutdown: 20% of world oil supply offline</span>
+      <span class="ticker-item">IEA: "Greatest global energy security challenge in history"</span>
+      <span class="ticker-item">QatarEnergy force majeure — 20% of global LNG production halted</span>
+      <span class="ticker-item">Philippines declares national energy emergency</span>
+      <span class="ticker-item">Brent crude peaked at $119/bbl on March 19, 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="h-eyebrow">
+      <div class="h-status">CRISIS ACTIVE — LIVE TRACKER</div>
+      <div class="h-date" id="header-date">Loading…</div>
+    </div>
+    <h1>IRAN WAR 2026 —<br><span class="accent">GLOBAL ENERGY</span> CRISIS TRACKER</h1>
+    <p class="h-sub">
+      Real-time tracking of the Strait of Hormuz closure, oil &amp; gas price surge,
+      country-by-country fuel rationing, fertilizer shortages, and the escalating
+      food supply chain crisis. Auto-updated every 5 minutes from GDELT &amp; global news.
+    </p>
+    <div class="h-meta">
+      <div class="h-meta-item"><span class="dot" style="background:var(--red)"></span>War started: Feb 28, 2026</div>
+      <div class="h-meta-item"><span class="dot" style="background:var(--amber)"></span>Hormuz: ~95% blocked</div>
+      <div class="h-meta-item"><span class="dot" style="background:var(--teal)"></span>Sources: GDELT · Google News · Al Jazeera · BBC</div>
+      <div class="h-meta-item"><span class="dot" style="background:var(--blue)"></span>Auto-refreshes every 5 minutes</div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════
+     LIVE PRICE STRIP
+════════════════════════════════════════ -->
+<div class="price-strip">
+  <div class="price-inner">
+    <div class="price-block">
+      <div class="price-symbol">Brent Crude</div>
+      <div class="price-val" id="p-brent">—</div>
+      <div class="price-chg" id="p-brent-chg">Loading…</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-symbol">WTI Crude</div>
+      <div class="price-val" id="p-wti">—</div>
+      <div class="price-chg" id="p-wti-chg">Loading…</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-symbol">TTF Gas (EU)</div>
+      <div class="price-val" id="p-ttf">—</div>
+      <div class="price-chg" id="p-ttf-chg">Loading…</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-symbol">US Nat. Gas</div>
+      <div class="price-val" id="p-ng">—</div>
+      <div class="price-chg" id="p-ng-chg">Loading…</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-symbol">Urea Fertilizer</div>
+      <div class="price-val" style="color:var(--amber)">~$720</div>
+      <div class="price-chg chg-up">▲ +50% /ton</div>
+    </div>
+    <div class="price-note">
+      Prices via Yahoo Finance<br>
+      <span id="price-updated">Fetching…</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EZOIC AD — TOP BANNER (placeholder 101) ═══ -->
+<div style="max-width:1320px;margin:0 auto;padding:14px 28px 0;text-align:center">
+  <div id="ezoic-pub-ad-placeholder-101" class="ez-slot"></div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MAIN PAGE LAYOUT
+════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- ═══ MAIN COLUMN ═══ -->
+  <main class="main">
+
+    <!-- Key Stats -->
+    <div class="sec-head">
+      <span class="sec-title">Key Crisis Indicators</span>
+      <span class="sec-count">Updated Mar 2026</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card sc-red">
+        <div class="stat-val" style="color:var(--red)">$119</div>
+        <div class="stat-label">Brent crude peak<br>Mar 19, 2026</div>
+        <div class="stat-sub">▲ +46% from pre-war</div>
+      </div>
+      <div class="stat-card sc-amber">
+        <div class="stat-val" style="color:var(--amber)">20M bbl</div>
+        <div class="stat-label">Daily oil supply<br>disrupted</div>
+        <div class="stat-sub">20% of world consumption</div>
+      </div>
+      <div class="stat-card sc-red">
+        <div class="stat-val" style="color:var(--red)">−95%</div>
+        <div class="stat-label">Hormuz shipping<br>traffic collapse</div>
+        <div class="stat-sub">130 → ~5 ships/day</div>
+      </div>
+      <div class="stat-card sc-amber">
+        <div class="stat-val" style="color:var(--amber)">−11M bbl</div>
+        <div class="stat-label">Global production<br>loss per day</div>
+        <div class="stat-sub">IEA — worst in history</div>
+      </div>
+      <div class="stat-card sc-red">
+        <div class="stat-val" style="color:var(--red)">+50%</div>
+        <div class="stat-label">Urea fertilizer<br>price surge</div>
+        <div class="stat-sub">$482 → $720/ton</div>
+      </div>
+      <div class="stat-card sc-teal">
+        <div class="stat-val" style="color:var(--teal)">400M bbl</div>
+        <div class="stat-label">IEA emergency<br>reserve release</div>
+        <div class="stat-sub">Largest in IEA history</div>
+      </div>
+      <div class="stat-card sc-amber">
+        <div class="stat-val" style="color:var(--amber)">110 bcm</div>
+        <div class="stat-label">LNG disrupted<br>(annualized)</div>
+        <div class="stat-sub">19% of global LNG trade</div>
+      </div>
+      <div class="stat-card sc-blue">
+        <div class="stat-val" style="color:var(--blue)">40+</div>
+        <div class="stat-label">Countries<br>impacted</div>
+        <div class="stat-sub">Auto-detected from news</div>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="live-dot"></div>
+      <span id="fetch-status">Initializing feed…</span>
+      <span>|</span>
+      <span>Last update: <strong id="last-update-time">—</strong></span>
+      <span>|</span>
+      <span>Articles loaded: <strong id="article-count">0</strong></span>
+      <span>|</span>
+      <span>Countries detected: <strong id="country-count">0</strong></span>
+      <span>|</span>
+      <span>Next refresh: <strong id="next-refresh">5:00</strong></span>
+    </div>
+
+    <!-- Breaking News -->
+    <div class="sec-head">
+      <span class="sec-title">Breaking News</span>
+      <span class="sec-count" id="news-sec-count">Auto-updating every 5 min</span>
+    </div>
+    <div class="news-list" id="news-list">
+      <!-- skeleton -->
+      <div class="skeleton-card"><div class="skeleton" style="width:30%;height:10px"></div><div class="skeleton" style="width:80%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:65%;height:12px;margin-top:4px"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:25%;height:10px"></div><div class="skeleton" style="width:75%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:60%;height:12px;margin-top:4px"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:35%;height:10px"></div><div class="skeleton" style="width:85%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:70%;height:12px;margin-top:4px"></div></div>
+    </div>
+
+    <!-- ═══ EZOIC AD — MID PAGE BANNER (placeholder 103) ═══ -->
+    <div style="text-align:center;margin:28px 0">
+      <div id="ezoic-pub-ad-placeholder-103" class="ez-slot"></div>
+    </div>
+
+    <!-- Country Tracker -->
+    <div class="sec-head mt-section">
+      <span class="sec-title">Country Impact Tracker</span>
+      <span class="sec-count" id="country-sec-count">Detecting from news feed…</span>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px;font-family:var(--mono)">
+      New countries are detected automatically as they appear in the news feed. Sorted by mention frequency.
+    </p>
+    <div class="country-grid" id="country-grid">
+      <!-- populated by JS -->
+      <div class="skeleton-card" style="height:100px"></div>
+      <div class="skeleton-card" style="height:100px"></div>
+      <div class="skeleton-card" style="height:100px"></div>
+      <div class="skeleton-card" style="height:100px"></div>
+    </div>
+
+    <!-- ═══ EZOIC AD — BELOW CONTENT (placeholder 105) ═══ -->
+    <div style="text-align:center;margin:28px 0">
+      <div id="ezoic-pub-ad-placeholder-105" class="ez-slot"></div>
+    </div>
+
+    <!-- SEO Content Block -->
+    <div class="about-block">
+      <h2>About the 2026 Iran War Energy Crisis</h2>
+      <p>
+        The <strong>2026 Iran War energy crisis</strong> began on <strong>February 28, 2026</strong>, when the United States
+        and Israel launched coordinated military strikes on Iran, codenamed "Operation Epic Fury."
+        Iran's Islamic Revolutionary Guard Corps (IRGC) retaliated by effectively closing the
+        <strong>Strait of Hormuz</strong> — the world's most critical energy chokepoint — through which
+        approximately <strong>20% of global oil supply</strong> and <strong>19% of global LNG trade</strong> flows daily.
+      </p>
+      <p>
+        The International Energy Agency (IEA) declared it <em>"the greatest global energy security
+        challenge in history,"</em> worse than the combined 1973 and 1979 oil shocks. Brent crude peaked
+        at <strong>$119 per barrel on March 19, 2026</strong>. Iranian drone strikes damaged Qatar's Ras Laffan
+        LNG complex — responsible for 20% of global LNG production — along with Saudi Aramco's
+        Ras Tanura refinery, the UAE's Ruwais complex, and Bahrain's Bapco refinery.
+        Multiple energy companies declared force majeure.
+      </p>
+
+      <h3>The Fertilizer & Food Crisis</h3>
+      <p>
+        Beyond the immediate <strong>oil and gas shock</strong>, a parallel <strong>fertilizer and food security crisis</strong>
+        is developing. One-third of global seaborne fertilizer trade passes through the Strait of Hormuz.
+        Urea prices surged 50%+ and ammonia 24%. The disruption coincides with the Northern
+        Hemisphere's <strong>spring planting season</strong>, threatening yields for wheat, rice, maize, and soybeans.
+        The UN World Food Programme warns of crop failures and long-term global food inflation.
+        Ethiopia, Kenya, Somalia, Bangladesh, India and Pakistan face the most acute fertilizer shortages.
+      </p>
+
+      <h3>Country-by-Country Impact</h3>
+      <p>
+        The Philippines declared a <strong>national energy emergency</strong> — the first country to do so.
+        Japan released its largest-ever strategic oil reserve draw (80M barrels).
+        South Korea imposed its first fuel price cap in 30 years. Bangladesh enforced strict fuel rationing,
+        deployed troops at oil depots, and closed universities. Sri Lanka reintroduced 2022-era fuel rations.
+        Myanmar implemented alternating driving days. China suspended fuel exports. Thailand banned crude oil exports.
+        The EU, already at historically low gas storage (46 bcm vs 77 bcm in 2024), faces a critical
+        winter 2026–27 refill challenge.
+      </p>
+
+      <h3>What This Tracker Does</h3>
+      <p>
+        This page aggregates real-time news from <strong>GDELT</strong> (Global Database of Events, Language and Tone),
+        <strong>Google News</strong>, <strong>Al Jazeera</strong>, and <strong>BBC World</strong>,
+        plus live commodity prices from <strong>Yahoo Finance</strong>. Content auto-updates every 5 minutes.
+        New countries are detected automatically as they appear in the news feed.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+
+    <!-- ═══ EZOIC AD — SIDEBAR TOP (placeholder 102) ═══ -->
+    <div id="ezoic-pub-ad-placeholder-102" class="ez-slot-sidebar"></div>
+
+    <!-- Crisis Timeline -->
+    <div class="side-card">
+      <div class="side-card-head">📅 Crisis Timeline</div>
+      <div style="padding:14px 14px 14px 10px">
+        <div class="timeline" id="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">FEB 28, 2026</div>
+            <div class="tl-title">Operation Epic Fury launched</div>
+            <div class="tl-body">US &amp; Israel strike Iran. Brent surges 10–13%. Markets crash globally.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 1–2, 2026</div>
+            <div class="tl-title">Hormuz closed + Qatar force majeure</div>
+            <div class="tl-body">IRGC closes strait. Drones hit Ras Laffan. EU gas +50% in one day.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 2–4, 2026</div>
+            <div class="tl-title">Gulf infrastructure struck</div>
+            <div class="tl-body">Ras Tanura (SA), Ruwais (UAE), Bapco (Bahrain), KPC all shut.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 6–9, 2026</div>
+            <div class="tl-title">Asia emergency measures</div>
+            <div class="tl-body">Philippines 4-day week. Bangladesh rationing. Japan 80M barrel release. KOSPI −6%.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 12–15, 2026</div>
+            <div class="tl-title">India LPG crisis / Australia</div>
+            <div class="tl-body">India redirects LPG to households. 220K Indians repatriated. Australia relaxes fuel standards.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 19, 2026</div>
+            <div class="tl-title">Brent peaks $119/bbl</div>
+            <div class="tl-body">IEA: −11M bbl/day — worst oil drop in history. PHP hits record low.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 23–24, 2026</div>
+            <div class="tl-title">$580M insider trading scandal</div>
+            <div class="tl-body">FT: bet placed 15 min before Trump ceasefire signal. Philippines declares energy emergency.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 25–26, 2026</div>
+            <div class="tl-title">UN Security Council emergency session</div>
+            <div class="tl-body">UN calls for immediate humanitarian corridor through Hormuz. Russia and China abstain. G7 pledges additional 120M bbl reserve release.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">MAR 26, 2026</div>
+            <div class="tl-title">EU activates emergency energy solidarity</div>
+            <div class="tl-body">EU triggers Article 122 emergency. Germany restarts coal plants. France offers nuclear electricity exports. TTF gas hits record highs.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:var(--amber)"></div>
+            <div class="tl-date">MAR 27, 2026 — TODAY</div>
+            <div class="tl-title">Fertilizer crisis deepens · Ceasefire talks stall</div>
+            <div class="tl-body">WFP warns of mass crop failures across South Asia and East Africa. US-Iran backchannel negotiations via Oman reported but unconfirmed. Brent holds above $110.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Force Majeure -->
+    <div class="side-card">
+      <div class="side-card-head">⚠️ Force Majeure Declarations</div>
+      <div class="side-row"><span class="sr-label">QatarEnergy (Ras Laffan)</span><span class="sr-val sr-red">ACTIVE</span></div>
+      <div class="side-row"><span class="sr-label">Kuwait Petroleum Corp</span><span class="sr-val sr-red">ACTIVE</span></div>
+      <div class="side-row"><span class="sr-label">Bahrain BAPCO</span><span class="sr-val sr-red">ACTIVE</span></div>
+      <div class="side-row"><span class="sr-label">QAFCO (urea)</span><span class="sr-val sr-red">HALTED</span></div>
+      <div class="side-row"><span class="sr-label">Aramco Ras Tanura</span><span class="sr-val sr-amber">CLOSED</span></div>
+      <div class="side-row"><span class="sr-label">ADNOC UAE Ruwais</span><span class="sr-val sr-amber">CLOSED</span></div>
+      <div class="side-row"><span class="sr-label">Israel Karish/Leviathan</span><span class="sr-val sr-amber">HALTED</span></div>
+      <div class="side-row"><span class="sr-label">Asian petrochems (wave)</span><span class="sr-val sr-red">SPREADING</span></div>
+    </div>
+
+    <!-- Restrictions Tracker -->
+    <div class="side-card">
+      <div class="side-card-head">🚫 Active Country Restrictions</div>
+      <div class="side-row"><span class="sr-label">Philippines</span><span class="sr-val sr-red">National Emergency</span></div>
+      <div class="side-row"><span class="sr-label">Bangladesh</span><span class="sr-val sr-red">Full Rationing</span></div>
+      <div class="side-row"><span class="sr-label">Myanmar</span><span class="sr-val sr-red">Alt. Driving Days</span></div>
+      <div class="side-row"><span class="sr-label">Sri Lanka</span><span class="sr-val sr-red">Ration + 4-day week</span></div>
+      <div class="side-row"><span class="sr-label">Nepal</span><span class="sr-val sr-amber">Cooking Gas Ration</span></div>
+      <div class="side-row"><span class="sr-label">Pakistan</span><span class="sr-val sr-amber">Schools Closed</span></div>
+      <div class="side-row"><span class="sr-label">South Korea</span><span class="sr-val sr-amber">Fuel Price Cap</span></div>
+      <div class="side-row"><span class="sr-label">Japan</span><span class="sr-val sr-amber">Reserve Release</span></div>
+      <div class="side-row"><span class="sr-label">India</span><span class="sr-val sr-amber">LPG Emergency Powers</span></div>
+      <div class="side-row"><span class="sr-label">Thailand</span><span class="sr-val sr-amber">Oil Export Ban</span></div>
+      <div class="side-row"><span class="sr-label">China</span><span class="sr-val sr-amber">Fuel Export Halt</span></div>
+      <div class="side-row"><span class="sr-label">Australia</span><span class="sr-val sr-amber">Fuel Standards Eased</span></div>
+      <div class="side-row"><span class="sr-label">Slovenia</span><span class="sr-val sr-amber">Fuel Rationing</span></div>
+      <div class="side-row"><span class="sr-label">Vietnam</span><span class="sr-val sr-blue">WFH Policy</span></div>
+    </div>
+
+    <!-- Commodities sidebar -->
+    <div class="side-card">
+      <div class="side-card-head">📊 Live Commodities</div>
+      <div class="side-row"><span class="sr-label">Brent Crude</span><span class="sr-val sr-red" id="s-brent">—</span></div>
+      <div class="side-row"><span class="sr-label">WTI Crude</span><span class="sr-val" id="s-wti">—</span></div>
+      <div class="side-row"><span class="sr-label">EU TTF Gas</span><span class="sr-val sr-amber" id="s-ttf">—</span></div>
+      <div class="side-row"><span class="sr-label">US Nat. Gas</span><span class="sr-val" id="s-ng">—</span></div>
+      <div class="side-row"><span class="sr-label">Urea (estimate)</span><span class="sr-val sr-amber">~$720/ton</span></div>
+      <div class="side-row"><span class="sr-label">Ammonia (estimate)</span><span class="sr-val sr-amber">~$590/ton</span></div>
+      <div style="padding:8px 14px;font-family:var(--mono);font-size:9px;color:var(--muted)">
+        Yahoo Finance · Fertilizer: market reports · <span id="commodity-time">Loading…</span>
+      </div>
+    </div>
+
+    <!-- ═══ EZOIC AD — SIDEBAR BOTTOM (placeholder 104) ═══ -->
+    <div id="ezoic-pub-ad-placeholder-104" class="ez-slot-sidebar"></div>
+
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <!-- ═══ EZOIC AD — FOOTER (placeholder 106) ═══ -->
+    <div style="text-align:center;margin-bottom:18px">
+      <div id="ezoic-pub-ad-placeholder-106" class="ez-slot"></div>
+    </div>
+    <p>
+      <strong style="color:#9aa">Iran War 2026 — Global Energy Crisis Tracker</strong><br>
+      Auto-refreshes every 5 minutes from global news sources<br>
+      Data: <a href="https://www.gdeltproject.org" rel="noopener">GDELT</a> ·
+      <a href="https://news.google.com" rel="noopener">Google News</a> ·
+      <a href="https://www.aljazeera.com" rel="noopener">Al Jazeera</a> ·
+      <a href="https://www.bbc.com/news" rel="noopener">BBC World</a> ·
+      <a href="https://finance.yahoo.com" rel="noopener">Yahoo Finance</a><br>
+      Not financial advice. Prices and information are for informational purposes only.<br>
+      <a href="/about.html">About</a> ·
+      <a href="/privacy.html">Privacy Policy</a> ·
+      <a href="/cookies.html">Cookie Policy</a> ·
+      <a href="/terms.html">Terms of Use</a> ·
+      <a href="/contact.html">Contact</a> ·
+      <a href="/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+<!-- ═══ COOKIE CONSENT BANNER ═══ -->
+<div class="cookie-banner" id="cookie-banner">
+  <div class="cookie-text">
+    We use cookies for advertising and local caching to improve your experience.
+    See our <a href="/cookies.html">Cookie Policy</a> and <a href="/privacy.html">Privacy Policy</a>.
+  </div>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-reject" onclick="handleCookieConsent(false)">Reject Non-Essential</button>
+    <button class="cookie-btn cookie-accept" onclick="handleCookieConsent(true)">Accept All</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     CORE JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ─── CONFIG ─── */
+const REFRESH_MS      = 5 * 60 * 1000;  // 5 min
+const CORS_PROXY      = 'https://api.allorigins.win/get?url=';
+const CORS_PROXY_ALT  = 'https://corsproxy.io/?';
+const MAX_ARTICLES    = 80;
+const CACHE_KEY       = 'iran_tracker_v3';
+
+/* ─── COUNTRIES dictionary ─── */
+const COUNTRIES = {
+  'Iran':          ['iran','iranian','tehran','irgc','khamenei'],
+  'United States': ['united states','trump','white house','pentagon','washington dc','american','us navy'],
+  'Israel':        ['israel','israeli','idf','netanyahu','tel aviv'],
+  'Qatar':         ['qatar','qatarenergy','ras laffan','qafco','doha'],
+  'Saudi Arabia':  ['saudi','aramco','riyadh','ras tanura'],
+  'UAE':           ['uae','dubai','abu dhabi','adnoc','ruwais'],
+  'Iraq':          ['iraq','iraqi','baghdad','kurdistan'],
+  'Kuwait':        ['kuwait','kpc','kuwaiti'],
+  'Bahrain':       ['bahrain','bapco','manama'],
+  'Oman':          ['oman','muscat','omani'],
+  'Philippines':   ['philippines','manila','marcos','php peso'],
+  'Japan':         ['japan','japanese','nikkei','tokyo','boe','takaichi'],
+  'South Korea':   ['south korea','korean','kospi','seoul','won'],
+  'India':         ['india','indian','modi','mumbai','new delhi','rupee'],
+  'China':         ['china','chinese','beijing','pboc','xi jinping','yuan'],
+  'Bangladesh':    ['bangladesh','dhaka','bangladeshi'],
+  'Pakistan':      ['pakistan','islamabad','lahore','kse'],
+  'Sri Lanka':     ['sri lanka','colombo'],
+  'Myanmar':       ['myanmar','burma','naypyidaw'],
+  'Nepal':         ['nepal','kathmandu'],
+  'Thailand':      ['thailand','thai','bangkok'],
+  'Vietnam':       ['vietnam','vietnamese','hanoi'],
+  'Indonesia':     ['indonesia','jakarta'],
+  'Malaysia':      ['malaysia','kuala lumpur'],
+  'Singapore':     ['singapore'],
+  'Taiwan':        ['taiwan','taipei'],
+  'Australia':     ['australia','australian','canberra'],
+  'Europe':        ['european union','eurozone','brussels','eu commission'],
+  'Germany':       ['germany','german','berlin','ttf','basf'],
+  'France':        ['france','french','paris','macron'],
+  'UK':            ['britain','uk','london','sunak'],
+  'Italy':         ['italy','italian','rome','milan'],
+  'Spain':         ['spain','spanish','madrid'],
+  'Poland':        ['poland','warsaw'],
+  'Russia':        ['russia','russian','moscow','putin','kremlin','novak'],
+  'Turkey':        ['turkey','turkish','ankara','erdogan'],
+  'Egypt':         ['egypt','cairo'],
+  'Jordan':        ['jordan','amman'],
+  'Lebanon':       ['lebanon','beirut'],
+  'Yemen':         ['yemen','houthi','sanaa'],
+  'Brazil':        ['brazil','brazilian','brasilia'],
+  'Ethiopia':      ['ethiopia','addis ababa'],
+  'Kenya':         ['kenya','nairobi'],
+  'Somalia':       ['somalia','mogadishu'],
+  'Sudan':         ['sudan','khartoum'],
+  'Laos':          ['laos','vientiane'],
+  'Cambodia':      ['cambodia','phnom penh'],
+  'Greece':        ['greece','greek','athens'],
+  'Netherlands':   ['netherlands','amsterdam','rotterdam'],
+};
+
+const RISK = {
+  'Iran':'red','Qatar':'red','Saudi Arabia':'red','Bahrain':'red','UAE':'red',
+  'Iraq':'red','Philippines':'red','Bangladesh':'red','Pakistan':'red','Sri Lanka':'red',
+  'Myanmar':'red','Ethiopia':'red','Somalia':'red','Sudan':'red','Yemen':'red',
+  'Japan':'amber','South Korea':'amber','India':'amber','Thailand':'amber','Vietnam':'amber',
+  'Singapore':'amber','Europe':'amber','Germany':'amber','UK':'amber','Australia':'amber',
+  'Russia':'amber','Turkey':'amber','Brazil':'amber','Kenya':'amber','Lebanon':'amber',
+  'China':'teal','United States':'teal','France':'teal','Italy':'teal','Netherlands':'teal',
+};
+
+/* ─── STATE ─── */
+let allArticles = [];
+let articlesByCountry = {};
+let countryMentions = {};
+let refreshTimer = null;
+let countdown = REFRESH_MS / 1000;
+
+/* ─── UTILITY ─── */
+function detectCountries(text) {
+  const lower = text.toLowerCase();
+  return Object.entries(COUNTRIES)
+    .filter(([,kws]) => kws.some(k => lower.includes(k)))
+    .map(([c]) => c);
+}
+
+function timeAgo(ts) {
+  const diff = Math.floor(Date.now() / 1000) - (typeof ts === 'number' ? ts : Math.floor(new Date(ts).getTime()/1000));
+  if (diff < 120) return 'just now';
+  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+  return `${Math.floor(diff/86400)}d ago`;
+}
+
+function dedup(arts) {
+  const seen = new Set();
+  return arts.filter(a => {
+    if (!a.title || seen.has(a.title.slice(0,60))) return false;
+    seen.add(a.title.slice(0,60));
+    return true;
+  });
+}
+
+function stripHtml(s) {
+  return (s||'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim();
+}
+
+function setStatus(msg, cls='') {
+  const el = document.getElementById('fetch-status');
+  el.textContent = msg;
+  el.className = cls;
+}
+
+/* ─── PERSIST CACHE ─── */
+function saveCache(data) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(),data})); } catch{}
+}
+function loadCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const {ts, data} = JSON.parse(raw);
+    if (Date.now() - ts > 30 * 60 * 1000) return null; // stale after 30 min
+    return data;
+  } catch { return null; }
+}
+
+/* ─── PRICE FETCHING ─── */
+async function fetchPrice(symbol) {
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=2d`;
+  // Try allorigins proxy
+  const proxyUrl = CORS_PROXY + encodeURIComponent(url);
+  const r = await fetch(proxyUrl, {signal: AbortSignal.timeout(12000)});
+  const outer = await r.json();
+  const parsed = JSON.parse(outer.contents);
+  const meta = parsed.chart.result[0].meta;
+  return {
+    value: meta.regularMarketPrice,
+    prev:  meta.chartPreviousClose || meta.regularMarketPrice
+  };
+}
+
+async function fetchAllPrices() {
+  const symbols = {
+    brent: 'BZ=F',
+    wti:   'CL=F',
+    ttf:   'TTF=F',
+    ng:    'NG=F',
+  };
+  const results = {};
+  await Promise.allSettled(
+    Object.entries(symbols).map(async ([key, sym]) => {
+      try { results[key] = await fetchPrice(sym); } catch(e) {}
+    })
+  );
+  return results;
+}
+
+function renderPrices(p) {
+  function fmt(v, prev, unit, id, sid, prefix='') {
+    if (!v) return;
+    const chg = (v - prev).toFixed(2);
+    const pct = ((Math.abs(chg) / prev) * 100).toFixed(1);
+    const cls = chg >= 0 ? 'chg-up' : 'chg-dn';
+    const arrow = chg >= 0 ? '▲' : '▼';
+    document.getElementById(id).textContent = prefix + v.toFixed(2);
+    document.getElementById(id).className = 'price-val ' + cls;
+    const chgEl = document.getElementById(id+'-chg');
+    if (chgEl) { chgEl.textContent = `${arrow} ${Math.abs(chg)} (${pct}%) ${unit}`; chgEl.className = 'price-chg ' + cls; }
+    const sEl = document.getElementById(sid);
+    if (sEl) sEl.textContent = prefix + v.toFixed(2) + ' ' + unit;
+  }
+  if (p.brent) fmt(p.brent.value, p.brent.prev, '/bbl', 'p-brent', 's-brent', '$');
+  if (p.wti)   fmt(p.wti.value,   p.wti.prev,   '/bbl', 'p-wti',   's-wti',   '$');
+  if (p.ttf)   fmt(p.ttf.value,   p.ttf.prev,   '/MWh', 'p-ttf',   's-ttf',   '€');
+  if (p.ng)    fmt(p.ng.value,    p.ng.prev,     '/MMBtu','p-ng',   's-ng',    '$');
+  const now = new Date().toUTCString().replace('GMT','UTC');
+  const pu = document.getElementById('price-updated');
+  if (pu) pu.textContent = 'Updated ' + now;
+  const ct = document.getElementById('commodity-time');
+  if (ct) ct.textContent = now;
+}
+
+/* ─── NEWS FETCHING ─── */
+async function fetchGDELT(query, days=2, n=25) {
+  const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=artlist&maxrecords=${n}&format=json&timespan=${days}d&sort=date`;
+  const r = await fetch(url, {signal: AbortSignal.timeout(15000)});
+  const data = await r.json();
+  return (data.articles || []).map(a => ({
+    title:   a.title || '',
+    url:     a.url || '#',
+    source:  a.domain || 'GDELT',
+    snippet: a.title || '',
+    ts:      a.seendate ? Math.floor(new Date(a.seendate.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/,'$1-$2-$3T$4:$5:$6Z')).getTime()/1000) : Math.floor(Date.now()/1000),
+    countries: detectCountries(a.title || ''),
+  }));
+}
+
+async function fetchRSS(feedUrl, sourceName) {
+  const proxyUrl = CORS_PROXY + encodeURIComponent(feedUrl);
+  const r = await fetch(proxyUrl, {signal: AbortSignal.timeout(15000)});
+  const outer = await r.json();
+  const xml = new DOMParser().parseFromString(outer.contents, 'text/xml');
+  const items = [...xml.querySelectorAll('item')];
+  const KEYWORDS = /iran|hormuz|oil|energy|fuel|gas|fertiliz|food crisis|war|gulf|brent|opec|ration/i;
+  return items.slice(0,20).filter(i => {
+    const t = i.querySelector('title')?.textContent || '';
+    const d = i.querySelector('description')?.textContent || '';
+    return KEYWORDS.test(t + d);
+  }).map(i => {
+    const title   = stripHtml(i.querySelector('title')?.textContent || '');
+    const snippet = stripHtml(i.querySelector('description')?.textContent || '').slice(0,200);
+    const url     = i.querySelector('link')?.textContent?.trim() || '#';
+    const pubDate = i.querySelector('pubDate')?.textContent || '';
+    return {
+      title,
+      url,
+      source: sourceName,
+      snippet: snippet || title,
+      ts: pubDate ? Math.floor(new Date(pubDate).getTime()/1000) : Math.floor(Date.now()/1000),
+      countries: detectCountries(title + ' ' + snippet),
+    };
+  });
+}
+
+/* ─── RENDER NEWS ─── */
+function renderNews(articles) {
+  const el = document.getElementById('news-list');
+  if (!articles.length) {
+    el.innerHTML = '<div style="font-family:var(--mono);font-size:11px;color:var(--muted);padding:20px">No articles loaded yet. Retrying…</div>';
+    return;
+  }
+  el.innerHTML = articles.slice(0, MAX_ARTICLES).map(a => {
+    const tags = (a.countries||[]).slice(0,5).map(c => `<span class="nc-tag">${c}</span>`).join('');
+    const src  = a.source || '';
+    const ago  = a.ts ? timeAgo(a.ts) : '';
+    const snip = (a.snippet||'').slice(0,160);
+    return `<article class="news-card">
+      <span class="nc-source">${src}</span><span class="nc-age">${ago}</span>
+      <a href="${a.url}" class="nc-title" target="_blank" rel="noopener noreferrer">${a.title}</a>
+      ${snip ? `<p class="nc-snippet">${snip}</p>` : ''}
+      <div class="nc-tags">${tags}</div>
+    </article>`;
+  }).join('');
+}
+
+/* ─── RENDER COUNTRIES ─── */
+function renderCountries(articles) {
+  // Build per-country map
+  const cmap = {};
+  articles.forEach(a => {
+    (a.countries||[]).forEach(c => {
+      if (!cmap[c]) cmap[c] = {count:0, articles:[]};
+      cmap[c].count++;
+      if (cmap[c].articles.length < 3) cmap[c].articles.push(a);
+    });
+  });
+
+  // Merge with all known countries (even if 0 count)
+  const PRIORITY = ['Iran','Qatar','Saudi Arabia','UAE','Iraq','Philippines','Japan','South Korea',
+    'India','China','Bangladesh','Thailand','Pakistan','Sri Lanka','Myanmar','Nepal','Vietnam',
+    'Singapore','Australia','Europe','United States','Russia','Turkey','Brazil','Ethiopia','Kenya'];
+  PRIORITY.forEach(c => { if (!cmap[c]) cmap[c] = {count:0,articles:[]}; });
+
+  const sorted = Object.entries(cmap)
+    .sort(([,a],[,b]) => b.count - a.count)
+    .slice(0,36);
+
+  countryMentions = Object.fromEntries(sorted.map(([c,v]) => [c, v.count]));
+  document.getElementById('country-count').textContent = Object.values(countryMentions).filter(v=>v>0).length;
+  document.getElementById('country-sec-count').textContent = `${sorted.length} countries tracked · ${Object.values(countryMentions).filter(v=>v>0).length} with live news`;
+
+  const riskCls = r => ({red:'badge-red',amber:'badge-amber',teal:'badge-teal'}[r] || 'badge-gray');
+  const riskLabel = c => {
+    const r = RISK[c];
+    if (r === 'red') return '🔴 CRITICAL';
+    if (r === 'amber') return '🟠 HIGH';
+    if (r === 'teal') return '🟡 MEDIUM';
+    return '⚪ MONITORING';
+  };
+
+  document.getElementById('country-grid').innerHTML = sorted.map(([name,{count,articles}]) => {
+    const links = articles.length
+      ? articles.map(a => `<a href="${a.url}" target="_blank" rel="noopener" class="cc-link">${a.title.slice(0,75)}</a>`).join('')
+      : '<span class="cc-empty">No recent articles</span>';
+    const r = RISK[name] || 'gray';
+    return `<div class="country-card">
+      <div class="cc-head">
+        <div>
+          <div class="cc-name">${name}</div>
+          <span class="cc-badge ${riskCls(r)}">${riskLabel(name)}</span>
+        </div>
+        <span class="cc-count">${count} articles</span>
+      </div>
+      <div class="cc-body">${links}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ─── RENDER TICKER ─── */
+function renderTicker(articles) {
+  const titles = articles.slice(0,16).map(a => `<span class="ticker-item">${a.title}</span>`).join('');
+  if (titles) {
+    document.getElementById('ticker').innerHTML = titles + titles;
+  }
+}
+
+/* ─── MAIN FETCH + RENDER CYCLE ─── */
+async function runUpdate() {
+  setStatus('Fetching…', 'loading');
+
+  const gdeltQueries = [
+    'Iran war energy crisis oil 2026',
+    'Strait Hormuz closure tanker',
+    'Iran war food fertilizer shortage',
+    'Iran war country rationing emergency',
+    'Iran war economy recession inflation',
+    'Iran war LNG Qatar Ras Laffan',
+    'Iran war supply chain disruption',
+  ];
+
+  const rssSources = [
+    ['https://news.google.com/rss/search?q=Iran+war+energy+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Strait+Hormuz+oil+tanker&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Iran+war+food+fertilizer+shortage&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://www.aljazeera.com/xml/rss/all.xml', 'Al Jazeera'],
+    ['https://feeds.bbci.co.uk/news/world/rss.xml', 'BBC World'],
+  ];
+
+  // Fetch prices in parallel (non-blocking)
+  fetchAllPrices().then(renderPrices).catch(()=>{});
+
+  // Fetch news
+  const results = await Promise.allSettled([
+    ...gdeltQueries.map(q => fetchGDELT(q, 2, 20)),
+    ...rssSources.map(([url, name]) => fetchRSS(url, name)),
+  ]);
+
+  let fetched = [];
+  results.forEach(r => { if (r.status === 'fulfilled' && Array.isArray(r.value)) fetched.push(...r.value); });
+
+  if (!fetched.length) {
+    setStatus('Fetch failed — retrying in 60s', 'error');
+    setTimeout(runUpdate, 60000);
+    return;
+  }
+
+  // Sort by timestamp desc, dedup
+  fetched.sort((a,b) => (b.ts||0) - (a.ts||0));
+  allArticles = dedup(fetched);
+
+  saveCache(allArticles);
+
+  renderNews(allArticles);
+  renderTicker(allArticles);
+  renderCountries(allArticles);
+
+  const now = new Date().toUTCString().replace('GMT','UTC');
+  document.getElementById('last-update-time').textContent = now;
+  document.getElementById('article-count').textContent = allArticles.length;
+  document.getElementById('news-sec-count').textContent = `${allArticles.length} articles · ${now}`;
+
+  setStatus('Live — next update in 5 min', '');
+}
+
+/* ─── COUNTDOWN TIMER ─── */
+function startCountdown() {
+  countdown = REFRESH_MS / 1000;
+  clearInterval(refreshTimer);
+  refreshTimer = setInterval(() => {
+    countdown--;
+    const m = Math.floor(countdown / 60);
+    const s = String(countdown % 60).padStart(2,'0');
+    const el = document.getElementById('next-refresh');
+    if (el) el.textContent = `${m}:${s}`;
+    if (countdown <= 0) {
+      clearInterval(refreshTimer);
+      runUpdate().then(startCountdown);
+    }
+  }, 1000);
+}
+
+/* ─── INIT ─── */
+(async function init() {
+  // Set date
+  document.getElementById('header-date').textContent =
+    new Date().toUTCString().replace('GMT','UTC');
+
+  // Show cached data immediately if available
+  const cached = loadCache();
+  if (cached && cached.length) {
+    allArticles = cached;
+    renderNews(cached);
+    renderTicker(cached);
+    renderCountries(cached);
+    document.getElementById('article-count').textContent = cached.length;
+    setStatus('Loading from cache — fetching fresh data…', 'loading');
+  }
+
+  // Fetch fresh data
+  await runUpdate();
+  startCountdown();
+
+  // ─── COOKIE CONSENT + EZOIC ───
+  const consent = localStorage.getItem('cookie_consent');
+  if (consent === 'accepted') {
+    loadEzoic();
+  } else if (!consent) {
+    document.getElementById('cookie-banner').classList.add('show');
+  }
+})();
+
+/* ─── COOKIE CONSENT HANDLERS ─── */
+function handleCookieConsent(accepted) {
+  localStorage.setItem('cookie_consent', accepted ? 'accepted' : 'rejected');
+  document.getElementById('cookie-banner').classList.remove('show');
+  if (accepted) loadEzoic();
+}
+
+function loadEzoic() {
+  if (document.getElementById('ezoic-script')) return;
+  const s = document.createElement('script');
+  s.id = 'ezoic-script';
+  s.src = '//www.ezojs.com/ezoic/sa.min.js';
+  s.async = true;
+  s.onload = function() {
+    window.ezstandalone = window.ezstandalone || {};
+    ezstandalone.cmd = ezstandalone.cmd || [];
+    ezstandalone.cmd.push(function() {
+      ezstandalone.define(101,102,103,104,105,106);
+      ezstandalone.enable();
+      ezstandalone.display();
+    });
+  };
+  document.head.appendChild(s);
+}
+</script>
+
+</body>
+</html>

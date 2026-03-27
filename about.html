@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — Iran War 2026 Energy Crisis Tracker</title>
+<meta name="description" content="About this live tracker for the 2026 Iran War energy crisis. Data sources, methodology, and site information.">
+<link rel="canonical" href="https://iran-crisis-tracker.netlify.app/about.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#080a0c;--bg2:#0d1014;--card:#131820;--border:rgba(255,255,255,0.06);--text:#c8cdd6;--muted:#5a6272;--red:#e03d3c;--blue:#3c8fdf;--mono:'DM Mono',monospace;--head:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.7;}
+  a{color:var(--blue);}
+  header{background:var(--bg2);border-bottom:1px solid var(--border);padding:28px 28px 24px;}
+  .back{font-family:var(--mono);font-size:11px;color:var(--muted);display:inline-flex;align-items:center;gap:6px;margin-bottom:16px;text-decoration:none;}
+  .back:hover{color:var(--text);}
+  h1{font-family:var(--head);font-size:36px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.5px;}
+  .content{max-width:760px;margin:0 auto;padding:48px 28px 80px;}
+  h2{font-family:var(--head);font-size:20px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px;margin:36px 0 12px;border-bottom:1px solid var(--border);padding-bottom:8px;}
+  p{color:var(--muted);margin-bottom:14px;font-size:15px;}
+  ul{color:var(--muted);padding-left:20px;margin-bottom:14px;}
+  li{margin-bottom:6px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px 24px;margin-bottom:14px;}
+  .card strong{color:var(--text);}
+  footer{border-top:1px solid var(--border);padding:20px 28px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);}
+  footer a{color:var(--blue);}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="back">← Back to Tracker</a>
+  <h1>About This Tracker</h1>
+</header>
+
+<div class="content">
+  <h2>What This Site Does</h2>
+  <p>
+    The <strong>Iran War 2026 Energy Crisis Tracker</strong> is a free, real-time news aggregation
+    and data visualization tool tracking the global impact of the 2026 US-Israel war on Iran,
+    including the near-shutdown of the Strait of Hormuz.
+  </p>
+  <p>
+    The site automatically collects and displays breaking news, live commodity prices, country-level
+    restrictions and emergency measures, and a running timeline of major events. It updates every
+    5 minutes using free, publicly available data sources. No personal data is collected.
+  </p>
+
+  <h2>Data Sources</h2>
+  <div class="card">
+    <p><strong>GDELT Project (gdeltproject.org)</strong><br>
+    The Global Database of Events, Language and Tone monitors news media worldwide in real time.
+    This site queries GDELT's free public API for articles matching crisis-related keywords.
+    GDELT data is published under an open license.</p>
+  </div>
+  <div class="card">
+    <p><strong>Google News RSS</strong><br>
+    Public RSS feeds from Google News for specific search queries related to the Iran war,
+    energy markets, and food supply chains.</p>
+  </div>
+  <div class="card">
+    <p><strong>Al Jazeera & BBC World RSS feeds</strong><br>
+    Public RSS news feeds from Al Jazeera and BBC World News, filtered for crisis-relevant articles.</p>
+  </div>
+  <div class="card">
+    <p><strong>Yahoo Finance</strong><br>
+    Live commodity prices (Brent Crude, WTI Crude, EU TTF Natural Gas, US Natural Gas futures)
+    are fetched from Yahoo Finance's public market data endpoint.</p>
+  </div>
+
+  <h2>Methodology</h2>
+  <p>
+    Articles are fetched from multiple sources, filtered by crisis-relevant keywords
+    (Iran, Hormuz, oil, energy, fuel, gas, fertilizer, food crisis, war, gulf, OPEC),
+    deduplicated by title, and sorted by publication time.
+    Countries mentioned in each article are detected automatically using keyword matching
+    and displayed in the country impact tracker.
+  </p>
+  <p>
+    Fertilizer prices (urea, ammonia) are estimates based on published market reports and
+    are not live-traded data. All prices are for informational purposes only and do not
+    constitute financial advice.
+  </p>
+
+  <h2>Disclaimer</h2>
+  <p>
+    This site aggregates and displays publicly available news and data. We do not endorse
+    any political position, military action, or government policy described in the articles.
+    The information provided is for informational and educational purposes only.
+    This is not financial, investment, or trading advice.
+  </p>
+  <p>
+    Article titles, summaries and links belong to their respective publishers.
+    This site does not reproduce full article text.
+  </p>
+
+  <h2>Contact</h2>
+  <p>For questions, corrections or feedback: <a href="/contact.html">contact us here</a> or see our <a href="/privacy.html">privacy policy</a>.</p>
+</div>
+
+<footer>
+  <a href="/">← Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/cookies.html">Cookie Policy</a> · <a href="/terms.html">Terms</a> · <a href="/contact.html">Contact</a> · <a href="/sitemap.xml">Sitemap</a>
+</footer>
+</body>
+</html>
