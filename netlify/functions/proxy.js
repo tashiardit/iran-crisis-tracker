@@ -34,6 +34,11 @@ export default async (request) => {
     'www.aljazeera.com',
     'feeds.bbci.co.uk',
     'aljazeera.com',
+    'rss.nytimes.com',
+    'feeds.reuters.com',
+    'www.theguardian.com',
+    'oilprice.com',
+    'www.hellenicshippingnews.com',
   ];
 
   let targetUrl;

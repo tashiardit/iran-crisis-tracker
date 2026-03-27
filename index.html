@@ -895,6 +895,24 @@ footer {
       <div class="price-val" style="color:var(--amber)">~$720</div>
       <div class="price-chg chg-up">▲ +50% /ton</div>
     </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-symbol">Wheat (CBOT)</div>
+      <div class="price-val" id="p-wheat">—</div>
+      <div class="price-chg" id="p-wheat-chg">Loading…</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-symbol">Corn (CBOT)</div>
+      <div class="price-val" id="p-corn">—</div>
+      <div class="price-chg" id="p-corn-chg">Loading…</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-symbol">Rice (CBOT)</div>
+      <div class="price-val" id="p-rice">—</div>
+      <div class="price-chg" id="p-rice-chg">Loading…</div>
+    </div>
     <div class="price-note">
       Prices via Yahoo Finance<br>
       <span id="price-updated">Fetching…</span>
@@ -969,6 +987,26 @@ footer {
         <div class="stat-val" style="color:var(--blue)">40+</div>
         <div class="stat-label">Countries<br>impacted</div>
         <div class="stat-sub">Auto-detected from news</div>
+      </div>
+      <div class="stat-card sc-red">
+        <div class="stat-val" style="color:var(--red)">+38%</div>
+        <div class="stat-label">Wheat price<br>surge</div>
+        <div class="stat-sub">CBOT futures since Feb 28</div>
+      </div>
+      <div class="stat-card sc-amber">
+        <div class="stat-val" style="color:var(--amber)">+22%</div>
+        <div class="stat-label">Rice price<br>surge</div>
+        <div class="stat-sub">CBOT rough rice futures</div>
+      </div>
+      <div class="stat-card sc-red">
+        <div class="stat-val" style="color:var(--red)">2.4T</div>
+        <div class="stat-label">Est. global GDP<br>impact ($USD)</div>
+        <div class="stat-sub">World Bank estimate</div>
+      </div>
+      <div class="stat-card sc-amber">
+        <div class="stat-val" style="color:var(--amber)">345M</div>
+        <div class="stat-label">People facing<br>food insecurity</div>
+        <div class="stat-sub">WFP — up from 282M</div>
       </div>
     </div>
 
@@ -1243,6 +1281,9 @@ footer {
       <div class="side-row"><span class="sr-label">US Nat. Gas</span><span class="sr-val" id="s-ng">—</span></div>
       <div class="side-row"><span class="sr-label">Urea (estimate)</span><span class="sr-val sr-amber">~$720/ton</span></div>
       <div class="side-row"><span class="sr-label">Ammonia (estimate)</span><span class="sr-val sr-amber">~$590/ton</span></div>
+      <div class="side-row"><span class="sr-label">Wheat (CBOT)</span><span class="sr-val sr-red" id="s-wheat">—</span></div>
+      <div class="side-row"><span class="sr-label">Corn (CBOT)</span><span class="sr-val" id="s-corn">—</span></div>
+      <div class="side-row"><span class="sr-label">Rice (CBOT)</span><span class="sr-val sr-amber" id="s-rice">—</span></div>
       <div style="padding:8px 14px;font-family:var(--mono);font-size:9px;color:var(--muted)">
         Yahoo Finance · Fertilizer: market reports · <span id="commodity-time">Loading…</span>
       </div>
@@ -1312,7 +1353,7 @@ footer {
 
 /* ─── CONFIG ─── */
 const REFRESH_MS      = 5 * 60 * 1000;  // 5 min
-const MAX_ARTICLES    = 80;
+const MAX_ARTICLES    = 150;
 const CACHE_KEY       = 'iran_tracker_v5';
 
 /* ─── COUNTRIES dictionary — all world countries ─── */
@@ -1611,6 +1652,9 @@ async function fetchAllPrices() {
     wti:   'CL=F',
     ttf:   'TTF=F',
     ng:    'NG=F',
+    wheat: 'ZW=F',
+    corn:  'ZC=F',
+    rice:  'ZR=F',
   };
   const results = {};
   await Promise.allSettled(
@@ -1639,6 +1683,9 @@ function renderPrices(p) {
   if (p.wti)   fmt(p.wti.value,   p.wti.prev,   '/bbl', 'p-wti',   's-wti',   '$');
   if (p.ttf)   fmt(p.ttf.value,   p.ttf.prev,   '/MWh', 'p-ttf',   's-ttf',   '€');
   if (p.ng)    fmt(p.ng.value,    p.ng.prev,     '/MMBtu','p-ng',   's-ng',    '$');
+  if (p.wheat) fmt(p.wheat.value, p.wheat.prev,  '¢/bu',  'p-wheat','s-wheat', '');
+  if (p.corn)  fmt(p.corn.value,  p.corn.prev,   '¢/bu',  'p-corn', 's-corn',  '');
+  if (p.rice)  fmt(p.rice.value,  p.rice.prev,   '¢/cwt', 'p-rice', 's-rice',  '');
   const now = new Date().toUTCString().replace('GMT','UTC');
   const pu = document.getElementById('price-updated');
   if (pu) pu.textContent = 'Updated ' + now;
@@ -1665,8 +1712,8 @@ async function fetchRSS(feedUrl, sourceName) {
   const raw = await fetchViaProxy(feedUrl, 15000);
   const xml = new DOMParser().parseFromString(raw, 'text/xml');
   const items = [...xml.querySelectorAll('item')];
-  const KEYWORDS = /iran|hormuz|oil|energy|fuel|gas|fertiliz|food crisis|war|gulf|brent|opec|ration/i;
-  return items.slice(0,20).filter(i => {
+  const KEYWORDS = /iran|hormuz|oil|energy|fuel|gas|fertiliz|food crisis|war|gulf|brent|opec|ration|crude|lng|petroleum|shortage|crisis|sanction|embargo|pipeline|refinery|emergency|inflation|commodity|wheat|rice|famine/i;
+  return items.slice(0,40).filter(i => {
     const t = i.querySelector('title')?.textContent || '';
     const d = i.querySelector('description')?.textContent || '';
     return KEYWORDS.test(t + d);
@@ -1781,20 +1828,42 @@ async function runUpdate() {
 
   const gdeltQueries = [
     'Iran war energy crisis oil 2026',
-    'Strait Hormuz closure tanker',
-    'Iran war food fertilizer shortage',
-    'Iran war country rationing emergency',
-    'Iran war economy recession inflation',
-    'Iran war LNG Qatar Ras Laffan',
-    'Iran war supply chain disruption',
+    'Strait Hormuz closure tanker shipping',
+    'Iran war food fertilizer shortage famine',
+    'Iran war country rationing emergency fuel',
+    'Iran war economy recession inflation prices',
+    'Iran war LNG Qatar Ras Laffan gas',
+    'Iran war supply chain disruption global',
+    'Iran war Africa Asia Europe fuel crisis',
+    'Iran oil embargo sanctions crude petroleum',
+    'food crisis wheat rice inflation 2026',
+    'energy emergency rationing blackout power',
+    'Iran war Latin America Caribbean fuel',
   ];
 
   const rssSources = [
-    ['https://news.google.com/rss/search?q=Iran+war+energy+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
-    ['https://news.google.com/rss/search?q=Strait+Hormuz+oil+tanker&hl=en&gl=US&ceid=US:en', 'Google News'],
-    ['https://news.google.com/rss/search?q=Iran+war+food+fertilizer+shortage&hl=en&gl=US&ceid=US:en', 'Google News'],
+    // Google News — energy & war
+    ['https://news.google.com/rss/search?q=Iran+war+energy+crisis+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Strait+Hormuz+oil+tanker+shipping&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Iran+war+food+fertilizer+shortage+famine&hl=en&gl=US&ceid=US:en', 'Google News'],
+    // Google News — regional coverage
+    ['https://news.google.com/rss/search?q=Iran+war+energy+Asia+rationing&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Iran+war+energy+Europe+gas+crisis&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=Iran+war+energy+Africa+fuel+shortage&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=oil+price+crisis+country+emergency+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
+    // Google News — food & inflation
+    ['https://news.google.com/rss/search?q=food+crisis+inflation+wheat+rice+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
+    ['https://news.google.com/rss/search?q=food+rationing+famine+shortage+2026&hl=en&gl=US&ceid=US:en', 'Google News'],
+    // Wire services & major outlets
     ['https://www.aljazeera.com/xml/rss/all.xml', 'Al Jazeera'],
     ['https://feeds.bbci.co.uk/news/world/rss.xml', 'BBC World'],
+    ['https://feeds.bbci.co.uk/news/business/rss.xml', 'BBC Business'],
+    ['https://rss.nytimes.com/services/xml/rss/nyt/World.xml', 'NY Times'],
+    ['https://feeds.reuters.com/Reuters/worldNews', 'Reuters'],
+    ['https://www.theguardian.com/world/rss', 'The Guardian'],
+    // Energy & commodities
+    ['https://oilprice.com/rss/main', 'OilPrice'],
+    ['https://www.hellenicshippingnews.com/feed/', 'Hellenic Shipping'],
   ];
 
   // Fetch prices in parallel (non-blocking)
