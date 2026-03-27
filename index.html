@@ -2047,6 +2047,13 @@ function startCountdown() {
     }
   }, 30000);
 
+  // ─── HIDE EMPTY AD SLOTS WHEN EZOIC NOT CONFIGURED ───
+  if (typeof ezoicSiteId === 'undefined' || ezoicSiteId === 'XXXXXXX') {
+    document.querySelectorAll('.ez-slot, .ez-slot-sidebar').forEach(el => {
+      if (el.parentElement) el.parentElement.style.display = 'none';
+    });
+  }
+
   // ─── COOKIE CONSENT + EZOIC ───
   const consent = localStorage.getItem('cookie_consent');
   if (consent === 'accepted') {
