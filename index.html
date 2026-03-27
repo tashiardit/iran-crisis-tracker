@@ -299,17 +299,14 @@ h1 .accent { color: var(--red); }
 
 /* ── EZOIC AD PLACEHOLDERS ── */
 .ez-slot {
-  min-height: 90px;
   width: 100%;
 }
 .ez-slot-sidebar {
-  min-height: 250px;
   width: 100%;
 }
-/* Fallback label while Ezoic loads */
-.ez-slot::before, .ez-slot-sidebar::before {
-  content: ' ';
-  display: block;
+/* When Ezoic fills the slot, it sets its own height */
+.ez-slot:empty, .ez-slot-sidebar:empty {
+  display: none;
 }
 /* ── AD SLOT (keep for layout reference) ── */
 .ad-slot {
@@ -731,6 +728,20 @@ footer {
 .view-section{display:none;}
 .view-section.active{display:block;}
 
+/* ── FOOD & INFLATION PANEL ── */
+.food-panel{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:20px 24px;margin-top:24px;}
+.food-panel-head{font-family:var(--head);font-size:16px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.food-item{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px;}
+.food-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.food-price{font-family:var(--mono);font-size:22px;font-weight:500;}
+.food-chg{font-family:var(--mono);font-size:10px;margin-top:2px;}
+.food-note{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:2px;}
+.food-alerts{display:flex;flex-direction:column;gap:8px;}
+.food-alert{font-family:var(--mono);font-size:11px;color:var(--text);padding:8px 12px;border-left:3px solid var(--amber);background:rgba(240,160,48,.04);border-radius:0 4px 4px 0;}
+.food-alert strong{color:var(--amber);}
+@media(max-width:640px){.food-grid{grid-template-columns:1fr;}}
+
 /* ── MOBILE TWEAKS ── */
 @media(max-width:640px) {
   h1 { font-size:24px; }
@@ -1034,6 +1045,55 @@ footer {
       <div class="skeleton-card"><div class="skeleton" style="width:30%;height:10px"></div><div class="skeleton" style="width:80%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:65%;height:12px;margin-top:4px"></div></div>
       <div class="skeleton-card"><div class="skeleton" style="width:25%;height:10px"></div><div class="skeleton" style="width:75%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:60%;height:12px;margin-top:4px"></div></div>
       <div class="skeleton-card"><div class="skeleton" style="width:35%;height:10px"></div><div class="skeleton" style="width:85%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:70%;height:12px;margin-top:4px"></div></div>
+    </div>
+
+    <!-- ═══ FOOD & INFLATION CRISIS ═══ -->
+    <div class="food-panel">
+      <div class="food-panel-head">🌾 Food & Inflation Crisis Monitor</div>
+      <div class="food-grid">
+        <div class="food-item">
+          <div class="food-label">Wheat (CBOT)</div>
+          <div class="food-price chg-up" id="f-wheat">—</div>
+          <div class="food-chg" id="f-wheat-chg">Loading…</div>
+          <div class="food-note">Chicago SRW futures · ¢/bushel</div>
+        </div>
+        <div class="food-item">
+          <div class="food-label">Corn (CBOT)</div>
+          <div class="food-price" id="f-corn">—</div>
+          <div class="food-chg" id="f-corn-chg">Loading…</div>
+          <div class="food-note">Chicago futures · ¢/bushel</div>
+        </div>
+        <div class="food-item">
+          <div class="food-label">Rice (CBOT)</div>
+          <div class="food-price" id="f-rice">—</div>
+          <div class="food-chg" id="f-rice-chg">Loading…</div>
+          <div class="food-note">Rough rice futures · $/cwt</div>
+        </div>
+        <div class="food-item">
+          <div class="food-label">Urea Fertilizer</div>
+          <div class="food-price" style="color:var(--amber)">~$720</div>
+          <div class="food-chg chg-up">▲ +50% from pre-crisis</div>
+          <div class="food-note">Market estimate · $/metric ton</div>
+        </div>
+        <div class="food-item">
+          <div class="food-label">Ammonia</div>
+          <div class="food-price" style="color:var(--amber)">~$590</div>
+          <div class="food-chg chg-up">▲ +24% from pre-crisis</div>
+          <div class="food-note">Market estimate · $/metric ton</div>
+        </div>
+        <div class="food-item">
+          <div class="food-label">Food Price Inflation</div>
+          <div class="food-price" style="color:var(--red)">+18%</div>
+          <div class="food-chg chg-up">▲ Accelerating</div>
+          <div class="food-note">Global food CPI · YoY estimate</div>
+        </div>
+      </div>
+      <div class="food-alerts" id="food-alerts">
+        <div class="food-alert"><strong>WFP Alert:</strong> 345 million people facing acute food insecurity — up from 282M pre-crisis. 22 countries on famine watchlist.</div>
+        <div class="food-alert"><strong>Fertilizer Crisis:</strong> Hormuz closure blocks ~33% of seaborne fertilizer trade. QAFCO (Qatar) force majeure on all urea contracts. Spring planting at risk across South/SE Asia & East Africa.</div>
+        <div class="food-alert"><strong>Rationing:</strong> Bangladesh, Sri Lanka, Myanmar, Nepal enforcing food/fuel rationing. India banned urea exports. Ethiopia declared national food emergency.</div>
+        <div class="food-alert"><strong>Inflation:</strong> FAO Food Price Index at 2022-era highs. Wheat +38%, rice +22% since Feb 28. Import-dependent nations face currency pressure compounding food costs.</div>
+      </div>
     </div>
 
     <!-- ═══ EZOIC AD — MID PAGE BANNER (placeholder 103) ═══ -->
@@ -1685,7 +1745,22 @@ function renderPrices(p) {
   if (p.ng)    fmt(p.ng.value,    p.ng.prev,     '/MMBtu','p-ng',   's-ng',    '$');
   if (p.wheat) fmt(p.wheat.value, p.wheat.prev,  '¢/bu',  'p-wheat','s-wheat', '');
   if (p.corn)  fmt(p.corn.value,  p.corn.prev,   '¢/bu',  'p-corn', 's-corn',  '');
-  if (p.rice)  fmt(p.rice.value,  p.rice.prev,   '¢/cwt', 'p-rice', 's-rice',  '');
+  if (p.rice)  fmt(p.rice.value,  p.rice.prev,   '/cwt',  'p-rice', 's-rice',  '$');
+  // Food panel prices
+  function fmtFood(v, prev, unit, id, prefix='') {
+    if (!v) return;
+    const chg = (v - prev).toFixed(2);
+    const pct = ((Math.abs(chg) / prev) * 100).toFixed(1);
+    const cls = chg >= 0 ? 'chg-up' : 'chg-dn';
+    const arrow = chg >= 0 ? '▲' : '▼';
+    const el = document.getElementById(id);
+    if (el) { el.textContent = prefix + v.toFixed(2); el.className = 'food-price ' + cls; }
+    const chgEl = document.getElementById(id + '-chg');
+    if (chgEl) { chgEl.textContent = `${arrow} ${Math.abs(chg)} (${pct}%) ${unit}`; chgEl.className = 'food-chg ' + cls; }
+  }
+  if (p.wheat) fmtFood(p.wheat.value, p.wheat.prev, '¢/bu',  'f-wheat', '');
+  if (p.corn)  fmtFood(p.corn.value,  p.corn.prev,  '¢/bu',  'f-corn',  '');
+  if (p.rice)  fmtFood(p.rice.value,  p.rice.prev,  '/cwt',   'f-rice',  '$');
   const now = new Date().toUTCString().replace('GMT','UTC');
   const pu = document.getElementById('price-updated');
   if (pu) pu.textContent = 'Updated ' + now;
