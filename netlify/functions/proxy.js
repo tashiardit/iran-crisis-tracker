@@ -1,5 +1,6 @@
 // Netlify Serverless Function — CORS Proxy for external APIs
 // Routes: /.netlify/functions/proxy?url=<encoded_url>
+// Routes: /.netlify/functions/proxy?url=<encoded_url>
 
 export default async (request) => {
   const url = new URL(request.url);
@@ -35,7 +36,6 @@ export default async (request) => {
     'feeds.bbci.co.uk',
     'aljazeera.com',
     'rss.nytimes.com',
-    'feeds.reuters.com',
     'www.theguardian.com',
     'oilprice.com',
     'www.hellenicshippingnews.com',
@@ -66,7 +66,6 @@ export default async (request) => {
       },
       signal: AbortSignal.timeout(15000),
     });
-
     const body = await resp.text();
     const contentType = resp.headers.get('content-type') || 'text/plain';
 

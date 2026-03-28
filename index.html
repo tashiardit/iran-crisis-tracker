@@ -180,7 +180,7 @@ header::after {
   opacity: .4;
 }
 .header-inner {
-  max-width: 1320px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 0 28px;
 }
@@ -253,7 +253,7 @@ h1 .accent { color: var(--red); }
   border-bottom: 1px solid var(--border);
 }
 .price-inner {
-  max-width: 1320px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 10px 28px;
   display: flex;
@@ -289,6 +289,8 @@ h1 .accent { color: var(--red); }
 .chg-dn { color: var(--teal); }
 .price-cmp{display:flex;gap:8px;font-family:var(--mono);font-size:9px;margin-top:2px;}
 .price-cmp span{opacity:.85;}
+.price-live{display:inline-block;font-family:var(--mono);font-size:7px;letter-spacing:1px;color:#fff;background:var(--red);padding:1px 5px;border-radius:2px;margin-left:6px;animation:livePulse 2s ease-in-out infinite;vertical-align:middle;}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.5;}}
 .price-divider { width:1px; height:50px; background:var(--border); flex-shrink:0; }
 .price-note {
   margin-left:auto;
@@ -328,7 +330,7 @@ h1 .accent { color: var(--red); }
 
 /* ── LAYOUT ── */
 .page {
-  max-width: 1320px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 28px 28px 80px;
   display: grid;
@@ -706,7 +708,7 @@ footer {
   padding: 24px 28px;
   text-align: center;
 }
-.footer-inner { max-width: 1320px; margin: 0 auto; }
+.footer-inner { max-width: 1800px; margin: 0 auto; }
 .footer-inner p {
   font-family: var(--mono);
   font-size: 10px;
@@ -832,6 +834,15 @@ footer {
 .mt-teal{background:rgba(32,181,132,.15);border-color:rgba(32,181,132,.2)!important;}
 .mt-none{background:rgba(255,255,255,.03);border-color:var(--border)!important;}
 @media(max-width:640px){.map-tile{width:56px;height:46px;}.map-tile .mt-name{font-size:7px;}.map-tile .mt-count{font-size:12px;}}
+/* ── SVG WORLD MAP ── */
+.world-svg{width:100%;height:auto;background:var(--bg2);border-radius:6px;border:1px solid var(--border);}
+.world-svg path,.world-svg circle,.world-svg rect{stroke:rgba(255,255,255,.08);stroke-width:.5;cursor:pointer;transition:opacity .15s;}
+.world-svg path:hover,.world-svg circle:hover,.world-svg rect:hover{opacity:1;stroke:rgba(255,255,255,.3);stroke-width:1;}
+.svg-risk-red{fill:rgba(224,61,60,.7);}
+.svg-risk-amber{fill:rgba(240,160,48,.6);}
+.svg-risk-teal{fill:rgba(32,181,132,.5);}
+.svg-risk-none{fill:rgba(255,255,255,.05);}
+.map-tile-section-head{font-family:var(--head);font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:16px 0 6px;padding:0 2px;}
 </style>
 </head>
 <body>
@@ -943,6 +954,13 @@ footer {
     </div>
     <div class="price-divider"></div>
     <div class="price-block">
+      <div class="price-symbol">Gold (XAU)</div>
+      <div class="price-val" id="p-gold">—</div>
+      <div class="price-chg" id="p-gold-chg">Loading…</div>
+      <div class="price-cmp" id="p-gold-cmp"></div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-block">
       <div class="price-symbol">Urea Fertilizer</div>
       <div class="price-val" style="color:var(--amber)">~$720</div>
       <div class="price-chg chg-up">▲ +50% /ton</div>
@@ -969,7 +987,7 @@ footer {
       <div class="price-cmp" id="p-rice-cmp"></div>
     </div>
     <div class="price-note">
-      Prices via Yahoo Finance<br>
+      <span id="price-source">Prices via Yahoo Finance</span><br>
       <span id="price-updated">Fetching…</span>
     </div>
   </div>
@@ -1168,14 +1186,18 @@ footer {
     </div>
 
     <div class="map-legend">
-      <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(224,61,60,.6)"></span>Critical</span>
+      <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(224,61,60,.7)"></span>Critical</span>
       <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(240,160,48,.6)"></span>High</span>
       <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(32,181,132,.5)"></span>Medium</span>
       <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(255,255,255,.08)"></span>No data</span>
-      <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">Tile number = article count</span>
+      <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">Hover country for article count</span>
     </div>
 
-    <div class="crisis-map" id="crisis-map">
+    <svg id="crisis-map-svg" class="world-svg" viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg">
+      <!-- paths injected by renderWorldSVG -->
+    </svg>
+
+    <div class="crisis-map" id="crisis-map" style="margin-top:20px;">
       <div style="font-family:var(--mono);font-size:11px;color:var(--muted);padding:20px">Loading map data…</div>
     </div>
 
@@ -1656,6 +1678,20 @@ const COUNTRIES = {
   'Trinidad and Tobago':['trinidad','tobago','port of spain'],
   'Haiti':['haiti','port-au-prince','haitian'],
   'Nicaragua':['nicaragua','managua','ortega'],
+  'Albania':['albania','tirana','albanian'],
+  'North Macedonia':['north macedonia','macedonia','skopje','macedonian'],
+  'Montenegro':['montenegro','podgorica'],
+  'Bosnia and Herzegovina':['bosnia','herzegovina','sarajevo'],
+  'Kosovo':['kosovo','pristina'],
+  'Malta':['malta','valletta'],
+  'Lithuania':['lithuania','vilnius','lithuanian'],
+  'Latvia':['latvia','riga','latvian'],
+  'Estonia':['estonia','tallinn','estonian'],
+  'Luxembourg':['luxembourg'],
+  'Liechtenstein':['liechtenstein','vaduz'],
+  'Andorra':['andorra'],
+  'Monaco':['monaco'],
+  'San Marino':['san marino'],
 };
 
 const RISK = {
@@ -1686,6 +1722,9 @@ const RISK = {
   'Serbia':'teal','New Zealand':'teal','Israel':'teal','North Korea':'teal',
   'Mongolia':'teal','Brunei':'teal','Kazakhstan':'teal','Azerbaijan':'teal',
   'Turkmenistan':'teal','Uzbekistan':'teal','Georgia':'teal','Armenia':'teal',
+  'Albania':'teal','North Macedonia':'teal','Montenegro':'teal','Bosnia and Herzegovina':'teal',
+  'Kosovo':'teal','Malta':'teal','Lithuania':'teal','Latvia':'teal','Estonia':'teal',
+  'Luxembourg':'teal','Liechtenstein':'teal','Andorra':'teal','Monaco':'teal','San Marino':'teal',
 };
 
 /* ─── STATE ─── */
@@ -1814,6 +1853,7 @@ async function fetchAllPrices() {
     wti:   'CL=F',
     ttf:   'TTF=F',
     ng:    'NG=F',
+    gold:  'GC=F',
     wheat: 'ZW=F',
     corn:  'ZC=F',
     rice:  'ZR=F',
@@ -1853,9 +1893,14 @@ function renderPrices(p) {
   if (p.wti)   fmt(p.wti.value,   p.wti.prev,   '/bbl', 'p-wti',   's-wti',   '$', p.wti);
   if (p.ttf)   fmt(p.ttf.value,   p.ttf.prev,   '/MWh', 'p-ttf',   's-ttf',   '€', p.ttf);
   if (p.ng)    fmt(p.ng.value,    p.ng.prev,     '/MMBtu','p-ng',   's-ng',    '$', p.ng);
+  if (p.gold)  fmt(p.gold.value,  p.gold.prev,   '/oz',   'p-gold', 's-gold',  '$', p.gold);
   if (p.wheat) fmt(p.wheat.value, p.wheat.prev,  '¢/bu',  'p-wheat','s-wheat', '', p.wheat);
   if (p.corn)  fmt(p.corn.value,  p.corn.prev,   '¢/bu',  'p-corn', 's-corn',  '', p.corn);
   if (p.rice)  fmt(p.rice.value,  p.rice.prev,   '/cwt',  'p-rice', 's-rice',  '$', p.rice);
+  // Store Yahoo baselines for crypto overlay comparisons
+  for (const key of ['brent','wti','ttf','ng','gold','wheat','corn','rice']) {
+    if (p[key]) yahooBaselines[key] = { prev: p[key].prev, jan1: p[key].jan1, feb27: p[key].feb27 };
+  }
   // Food panel prices
   function fmtFood(v, prev, unit, id, prefix='') {
     if (!v) return;
@@ -1876,6 +1921,76 @@ function renderPrices(p) {
   if (pu) pu.textContent = 'Updated ' + now;
   const ct = document.getElementById('commodity-time');
   if (ct) ct.textContent = now;
+}
+
+/* ─── REAL-TIME PRICES (Hyperliquid PAXG for gold) ─── */
+const CRYPTO_REFRESH_MS = 30000; // 30s refresh for real-time prices
+let cryptoTimer = null;
+let yahooBaselines = {}; // Store Yahoo historical data for comparisons
+
+// Hyperliquid: direct fetch (CORS-enabled), no proxy needed
+// PAXG = PAX Gold — tokenized physical gold, tracks XAU 1:1
+async function fetchHyperliquidMids() {
+  const r = await fetch('https://api.hyperliquid.xyz/info', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({type:'allMids'}),
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!r.ok) throw new Error('HL ' + r.status);
+  return await r.json();
+}
+
+async function fetchCryptoPrices() {
+  const prices = {};
+  try {
+    const mids = await fetchHyperliquidMids();
+    if (mids.PAXG) prices.gold = { value: parseFloat(mids.PAXG), source: 'Hyperliquid', live: true };
+  } catch(e) { console.log('Hyperliquid fetch failed:', e.message); }
+  return prices;
+}
+
+function renderCryptoOverlay(crypto) {
+  const now = new Date().toUTCString().replace('GMT','UTC');
+  let sources = new Set();
+
+  // Gold overlay from PAXG
+  if (crypto.gold) {
+    const v = crypto.gold.value;
+    const base = yahooBaselines.gold || {};
+    const prev = base.prev || v;
+    const chg = (v - prev).toFixed(2);
+    const pct = ((Math.abs(chg) / prev) * 100).toFixed(1);
+    const cls = chg >= 0 ? 'chg-up' : 'chg-dn';
+    const arrow = chg >= 0 ? '▲' : '▼';
+    const el = document.getElementById('p-gold');
+    if (el) { el.innerHTML = '$' + v.toFixed(2) + '<span class="price-live">LIVE</span>'; el.className = 'price-val ' + cls; }
+    const chgEl = document.getElementById('p-gold-chg');
+    if (chgEl) { chgEl.textContent = `${arrow} ${Math.abs(chg)} (${pct}%) /oz`; chgEl.className = 'price-chg ' + cls; }
+    const cmpEl = document.getElementById('p-gold-cmp');
+    if (cmpEl && base.jan1) {
+      let html = '';
+      if (base.jan1) { const jp = ((v - base.jan1)/base.jan1*100).toFixed(1); const jc = jp >= 0 ? 'chg-up' : 'chg-dn'; html += `<span class="${jc}">YTD: ${jp>=0?'+':''}${jp}%</span>`; }
+      if (base.feb27) { const wp = ((v - base.feb27)/base.feb27*100).toFixed(1); const wc = wp >= 0 ? 'chg-up' : 'chg-dn'; html += `<span class="${wc}">War: ${wp>=0?'+':''}${wp}%</span>`; }
+      cmpEl.innerHTML = html;
+    }
+    sources.add(crypto.gold.source);
+  }
+
+  if (sources.size > 0) {
+    const srcEl = document.getElementById('price-source');
+    if (srcEl) srcEl.innerHTML = 'Gold: <b>Hyperliquid PAXG</b> (live 30s) · Others: Yahoo Finance';
+    const pu = document.getElementById('price-updated');
+    if (pu) pu.textContent = 'Live · ' + now;
+  }
+}
+
+async function cryptoPriceLoop() {
+  try {
+    const crypto = await fetchCryptoPrices();
+    if (Object.keys(crypto).length > 0) renderCryptoOverlay(crypto);
+  } catch(e) { console.log('Crypto price loop error:', e.message); }
+  cryptoTimer = setTimeout(cryptoPriceLoop, CRYPTO_REFRESH_MS);
 }
 
 /* ─── NEWS FETCHING ─── */
@@ -2029,7 +2144,7 @@ function renderCountries(articles) {
 /* ─── RENDER MAP ─── */
 const REGIONS = {
   'Middle East & Central Asia': ['Iran','Iraq','Saudi Arabia','UAE','Qatar','Kuwait','Bahrain','Oman','Yemen','Israel','Jordan','Lebanon','Syria','Turkey','Afghanistan','Uzbekistan','Turkmenistan','Kazakhstan','Azerbaijan'],
-  'Europe': ['UK','France','Germany','Italy','Spain','Netherlands','Poland','Greece','Norway','Sweden','Belgium','Austria','Switzerland','Portugal','Czech Republic','Romania','Hungary','Finland','Denmark','Ireland','Slovenia','Croatia','Bulgaria','Ukraine','Lithuania','Latvia','Estonia','Slovakia','Serbia','Moldova','Belarus','Iceland','Luxembourg'],
+  'Europe': ['UK','France','Germany','Italy','Spain','Netherlands','Poland','Greece','Norway','Sweden','Belgium','Austria','Switzerland','Portugal','Czech Republic','Romania','Hungary','Finland','Denmark','Ireland','Slovenia','Croatia','Bulgaria','Ukraine','Lithuania','Latvia','Estonia','Slovakia','Serbia','Moldova','Belarus','Iceland','Luxembourg','Albania','North Macedonia','Montenegro','Bosnia and Herzegovina','Kosovo','Malta','Liechtenstein','Andorra','Monaco','San Marino'],
   'South & Southeast Asia': ['India','Pakistan','Bangladesh','Sri Lanka','Nepal','Myanmar','Thailand','Vietnam','Indonesia','Philippines','Malaysia','Singapore','Cambodia','Laos'],
   'East Asia & Oceania': ['China','Japan','South Korea','Taiwan','Australia','New Zealand','Mongolia','Papua New Guinea','Fiji'],
   'Africa': ['Nigeria','South Africa','Kenya','Egypt','Ethiopia','Tanzania','Ghana','Algeria','Morocco','Libya','Tunisia','Sudan','Somalia','Senegal','Mozambique','Angola','DR Congo','Cameroon','Ivory Coast','Uganda','Madagascar','Niger','Mali','Zimbabwe','Zambia','Rwanda','Namibia'],
@@ -2041,10 +2156,177 @@ const MAP_NAME_MAP = {
   'USA': 'United States',
 };
 
-function renderMap(articles) {
-  const mapEl = document.getElementById('crisis-map');
-  if (!mapEl) return;
+/* ─── SVG MAP PATHS (Natural Earth simplified, viewBox 0 0 1000 500) ─── */
+const MAP_PATHS = {
+  // ── North America ──
+  'United States': 'M 112,135 L 195,130 L 225,140 L 240,155 L 235,175 L 220,185 L 195,190 L 170,195 L 148,200 L 130,195 L 108,188 L 95,175 L 90,160 L 98,145 Z',
+  'Canada':        'M 100,80 L 200,72 L 235,80 L 242,110 L 230,125 L 195,130 L 112,135 L 95,120 L 85,100 Z',
+  'Mexico':        'M 112,195 L 170,195 L 185,205 L 178,222 L 155,230 L 132,228 L 110,218 L 108,205 Z',
+  'Guatemala':     'M 148,228 L 162,228 L 166,238 L 152,240 L 146,235 Z',
+  'Honduras':      'M 155,237 L 170,236 L 174,245 L 158,247 L 154,242 Z',
+  'El Salvador':   'M 148,240 L 157,240 L 158,247 L 149,247 Z',
+  'Nicaragua':     'M 155,247 L 172,245 L 175,255 L 158,258 L 153,253 Z',
+  'Costa Rica':    'M 158,258 L 170,256 L 172,265 L 160,266 Z',
+  'Panama':        'M 160,265 L 175,263 L 178,270 L 162,272 Z',
+  'Cuba':          'M 170,205 L 195,202 L 200,210 L 185,215 L 170,213 Z',
+  'Dominican Republic': 'M 196,210 L 208,208 L 210,215 L 197,217 Z',
+  'Jamaica':       'M 182,215 L 192,214 L 193,219 L 182,219 Z',
+  'Trinidad and Tobago': 'M 218,252 L 226,251 L 227,257 L 218,257 Z',
+  'Haiti':         'M 185,210 L 196,208 L 197,215 L 185,216 Z',
+  // ── South America ──
+  'Colombia':      'M 168,268 L 198,262 L 208,275 L 205,292 L 185,298 L 168,290 L 162,278 Z',
+  'Venezuela':     'M 195,258 L 225,252 L 235,262 L 228,275 L 208,278 L 198,268 Z',
+  'Brazil':        'M 185,295 L 240,270 L 268,278 L 278,310 L 265,350 L 235,365 L 200,360 L 178,340 L 172,318 L 175,300 Z',
+  'Peru':          'M 162,295 L 185,295 L 178,340 L 158,340 L 148,320 L 152,302 Z',
+  'Ecuador':       'M 155,278 L 170,275 L 168,292 L 153,295 Z',
+  'Bolivia':       'M 178,335 L 210,328 L 218,352 L 205,362 L 182,360 L 173,348 Z',
+  'Chile':         'M 155,340 L 175,338 L 185,370 L 175,410 L 158,415 L 148,380 L 148,355 Z',
+  'Argentina':     'M 172,360 L 210,358 L 220,388 L 208,420 L 185,428 L 165,418 L 158,390 L 162,368 Z',
+  'Uruguay':       'M 205,365 L 222,362 L 225,375 L 208,378 Z',
+  'Paraguay':      'M 198,340 L 218,338 L 220,358 L 200,360 Z',
+  // ── Europe ──
+  'UK':            'M 432,95 L 445,88 L 452,98 L 448,112 L 435,115 L 428,107 Z',
+  'Ireland':       'M 422,98 L 432,95 L 432,110 L 422,112 Z',
+  'France':        'M 445,112 L 468,108 L 475,120 L 470,135 L 452,138 L 438,130 L 438,118 Z',
+  'Spain':         'M 428,135 L 468,132 L 472,148 L 460,160 L 435,162 L 420,152 L 422,140 Z',
+  'Portugal':      'M 420,138 L 430,135 L 428,155 L 418,158 Z',
+  'Germany':       'M 468,105 L 490,102 L 498,115 L 492,128 L 472,130 L 464,118 Z',
+  'Netherlands':   'M 462,100 L 474,98 L 476,108 L 463,110 Z',
+  'Belgium':       'M 462,108 L 474,106 L 476,118 L 463,118 Z',
+  'Switzerland':   'M 465,128 L 480,126 L 482,136 L 466,138 Z',
+  'Austria':       'M 480,120 L 500,118 L 502,130 L 480,132 Z',
+  'Italy':         'M 468,132 L 488,128 L 495,142 L 492,162 L 480,172 L 470,165 L 465,148 Z',
+  'Poland':        'M 490,98 L 518,96 L 522,112 L 500,116 L 488,112 Z',
+  'Czech Republic':'M 488,108 L 506,106 L 508,118 L 490,120 Z',
+  'Slovakia':      'M 505,110 L 522,108 L 524,118 L 506,120 Z',
+  'Hungary':       'M 500,118 L 522,116 L 525,128 L 502,130 Z',
+  'Romania':       'M 508,115 L 535,112 L 540,128 L 525,135 L 505,132 Z',
+  'Bulgaria':      'M 512,132 L 535,130 L 538,142 L 512,144 Z',
+  'Greece':        'M 505,138 L 522,135 L 525,150 L 515,158 L 502,152 Z',
+  'Croatia':       'M 488,128 L 505,125 L 508,136 L 492,140 Z',
+  'Slovenia':      'M 482,124 L 492,122 L 494,130 L 483,132 Z',
+  'Serbia':        'M 502,130 L 518,128 L 520,142 L 503,144 Z',
+  'Albania':       'M 504,142 L 514,140 L 516,152 L 505,154 Z',
+  'North Macedonia':'M 512,142 L 524,140 L 525,150 L 512,151 Z',
+  'Bosnia and Herzegovina':'M 490,130 L 506,128 L 508,140 L 490,142 Z',
+  'Montenegro':    'M 500,140 L 510,138 L 511,147 L 500,148 Z',
+  'Kosovo':        'M 512,148 L 521,147 L 522,154 L 512,155 Z',
+  'Ukraine':       'M 518,105 L 558,100 L 565,118 L 545,128 L 520,125 Z',
+  'Belarus':       'M 512,92 L 540,88 L 545,102 L 518,106 Z',
+  'Moldova':       'M 540,118 L 550,116 L 552,126 L 540,128 Z',
+  'Norway':        'M 468,62 L 498,55 L 510,70 L 498,85 L 468,88 L 460,76 Z',
+  'Sweden':        'M 490,60 L 510,55 L 518,70 L 512,88 L 495,90 L 488,76 Z',
+  'Finland':       'M 510,55 L 530,48 L 538,68 L 525,82 L 510,80 Z',
+  'Denmark':       'M 472,88 L 482,85 L 484,98 L 472,100 Z',
+  'Iceland':       'M 400,60 L 422,55 L 428,68 L 415,74 L 400,72 Z',
+  'Lithuania':     'M 510,98 L 525,96 L 527,108 L 510,110 Z',
+  'Latvia':        'M 510,89 L 526,87 L 528,99 L 510,100 Z',
+  'Estonia':       'M 510,80 L 526,78 L 527,90 L 510,91 Z',
+  'Portugal (Madeira)': null,
+  // small countries as circles (handled below in MAP_CIRCLES)
+  // ── Middle East ──
+  'Turkey':        'M 540,140 L 580,135 L 592,145 L 585,158 L 555,162 L 535,158 Z',
+  'Syria':         'M 580,148 L 600,145 L 605,158 L 582,162 Z',
+  'Lebanon':       'M 580,155 L 590,153 L 591,162 L 580,163 Z',
+  'Israel':        'M 578,162 L 586,160 L 588,172 L 578,174 Z',
+  'Palestine':     'M 577,168 L 582,167 L 583,174 L 577,175 Z',
+  'Jordan':        'M 584,162 L 598,160 L 600,175 L 585,177 Z',
+  'Iraq':          'M 598,148 L 625,145 L 630,165 L 610,172 L 595,168 Z',
+  'Iran':          'M 622,138 L 672,132 L 680,150 L 672,168 L 645,175 L 620,170 L 610,158 Z',
+  'Kuwait':        'M 622,165 L 632,163 L 633,172 L 622,173 Z',
+  'Saudi Arabia':  'M 585,170 L 640,165 L 648,185 L 635,210 L 608,218 L 580,208 L 575,188 Z',
+  'UAE':           'M 648,182 L 668,178 L 670,190 L 648,193 Z',
+  'Oman':          'M 665,178 L 685,172 L 695,188 L 685,208 L 665,210 L 655,195 Z',
+  'Qatar':         'M 642,183 L 650,182 L 651,192 L 642,193 Z',
+  'Bahrain':       'M 637,178 L 642,178 L 642,184 L 637,184 Z',
+  'Yemen':         'M 600,210 L 640,205 L 648,218 L 630,228 L 600,225 L 592,218 Z',
+  // ── Central/South Asia ──
+  'Kazakhstan':    'M 638,100 L 710,92 L 722,112 L 710,128 L 658,132 L 635,118 Z',
+  'Uzbekistan':    'M 658,128 L 700,122 L 705,138 L 665,142 Z',
+  'Turkmenistan':  'M 655,138 L 698,133 L 702,148 L 660,152 Z',
+  'Afghanistan':   'M 668,148 L 710,142 L 715,160 L 698,168 L 668,165 Z',
+  'Pakistan':      'M 692,158 L 730,152 L 738,172 L 725,188 L 700,190 L 685,178 Z',
+  'India':         'M 710,168 L 750,162 L 762,185 L 755,215 L 738,230 L 715,232 L 700,218 L 698,195 Z',
+  'Nepal':         'M 735,162 L 760,158 L 762,168 L 735,170 Z',
+  'Bangladesh':    'M 758,178 L 772,175 L 774,190 L 758,192 Z',
+  'Sri Lanka':     'M 730,228 L 740,225 L 742,238 L 730,240 Z',
+  'Myanmar':       'M 762,175 L 782,170 L 788,192 L 778,210 L 762,212 L 755,198 Z',
+  'Thailand':      'M 780,192 L 800,188 L 808,210 L 795,225 L 778,222 Z',
+  'Cambodia':      'M 795,218 L 812,215 L 814,228 L 795,230 Z',
+  'Vietnam':       'M 800,188 L 818,182 L 825,205 L 818,228 L 800,225 Z',
+  'Laos':          'M 790,188 L 805,185 L 808,205 L 792,208 Z',
+  'Malaysia':      'M 800,228 L 835,222 L 838,235 L 800,237 Z',
+  'Singapore':     'M 820,236 L 828,235 L 829,240 L 820,241 Z',
+  'Indonesia':     'M 798,240 L 870,235 L 875,250 L 840,258 L 800,255 Z',
+  'Philippines':   'M 840,208 L 858,200 L 865,218 L 850,228 L 835,225 Z',
+  // ── East Asia ──
+  'China':         'M 726,120 L 810,112 L 828,135 L 820,165 L 798,178 L 762,175 L 735,165 L 718,148 Z',
+  'Mongolia':      'M 718,105 L 790,98 L 800,115 L 788,128 L 728,132 Z',
+  'Russia':        'M 510,48 L 700,28 L 900,35 L 920,65 L 850,80 L 720,90 L 610,82 L 530,75 Z',
+  'Japan':         'M 855,120 L 870,112 L 882,128 L 870,142 L 852,138 Z',
+  'South Korea':   'M 830,138 L 848,135 L 850,148 L 830,150 Z',
+  'Taiwan':        'M 840,168 L 852,165 L 854,178 L 840,180 Z',
+  // ── Oceania ──
+  'Australia':     'M 830,285 L 908,278 L 928,305 L 918,345 L 885,362 L 845,358 L 820,335 L 818,310 Z',
+  'New Zealand':   'M 928,340 L 940,330 L 948,348 L 938,362 L 924,358 Z',
+  'Papua New Guinea':'M 872,255 L 910,248 L 918,265 L 898,272 L 872,270 Z',
+  // ── Africa ──
+  'Morocco':       'M 430,162 L 455,158 L 458,175 L 445,185 L 428,182 Z',
+  'Algeria':       'M 450,162 L 492,158 L 496,182 L 480,195 L 452,192 Z',
+  'Tunisia':       'M 480,155 L 490,153 L 492,168 L 480,170 Z',
+  'Libya':         'M 488,158 L 525,155 L 530,180 L 515,195 L 488,192 Z',
+  'Egypt':         'M 524,158 L 552,155 L 556,178 L 535,188 L 522,182 Z',
+  'Sudan':         'M 535,185 L 565,180 L 570,210 L 552,222 L 530,218 Z',
+  'South Sudan':   'M 535,218 L 558,215 L 560,235 L 535,238 Z',
+  'Ethiopia':      'M 558,215 L 592,210 L 598,232 L 578,245 L 555,240 Z',
+  'Eritrea':       'M 558,205 L 578,200 L 580,215 L 558,218 Z',
+  'Djibouti':      'M 588,215 L 598,213 L 599,222 L 588,223 Z',
+  'Somalia':       'M 580,220 L 612,215 L 618,240 L 600,260 L 578,255 L 572,240 Z',
+  'Kenya':         'M 555,240 L 585,235 L 590,258 L 570,268 L 550,262 Z',
+  'Tanzania':      'M 548,262 L 580,258 L 585,282 L 562,292 L 542,285 Z',
+  'Uganda':        'M 550,248 L 568,245 L 570,262 L 550,264 Z',
+  'Rwanda':        'M 552,262 L 562,260 L 563,268 L 552,269 Z',
+  'Mozambique':    'M 550,285 L 572,282 L 575,315 L 558,325 L 545,315 L 543,298 Z',
+  'Zimbabwe':      'M 542,295 L 562,292 L 565,308 L 545,312 Z',
+  'Zambia':        'M 532,270 L 558,265 L 562,285 L 540,290 Z',
+  'Namibia':       'M 512,298 L 538,295 L 540,325 L 520,330 L 508,318 Z',
+  'South Africa':  'M 510,322 L 548,318 L 555,345 L 538,358 L 510,355 L 498,340 Z',
+  'Angola':        'M 505,268 L 535,265 L 540,295 L 515,300 L 502,285 Z',
+  'DR Congo':      'M 505,245 L 545,240 L 550,270 L 525,278 L 500,270 Z',
+  'Cameroon':      'M 478,232 L 502,228 L 508,248 L 488,252 L 475,245 Z',
+  'Nigeria':       'M 455,225 L 490,220 L 495,242 L 472,250 L 452,245 Z',
+  'Ghana':         'M 442,235 L 458,232 L 460,250 L 442,252 Z',
+  'Ivory Coast':   'M 430,238 L 448,235 L 450,252 L 430,255 Z',
+  'Senegal':       'M 410,222 L 428,220 L 430,232 L 412,235 Z',
+  'Mali':          'M 422,200 L 460,195 L 464,220 L 425,225 Z',
+  'Niger':         'M 458,198 L 498,192 L 502,218 L 462,222 Z',
+  'Madagascar':    'M 578,282 L 592,275 L 598,305 L 588,322 L 572,318 L 568,298 Z',
+  'Ivory Coast (CI)': null,
+  // ── Caucasus & Georgia ──
+  'Georgia':       'M 588,135 L 610,132 L 612,142 L 588,144 Z',
+  'Armenia':       'M 588,142 L 602,140 L 603,150 L 588,151 Z',
+  'Azerbaijan':    'M 600,138 L 618,135 L 620,148 L 600,150 Z',
+};
 
+/* ─── Small countries rendered as circles (cx,cy,r) ─── */
+const MAP_CIRCLES = {
+  'Luxembourg':    [466,115,4],
+  'Liechtenstein': [475,128,3],
+  'Andorra':       [452,147,3],
+  'Monaco':        [472,135,3],
+  'San Marino':    [482,138,3],
+  'Kosovo':        [510,144,4],
+  'Malta':         [488,162,4],
+  'Montenegro':    [502,137,4],
+  'Bahrain':       [638,180,4],
+  'Qatar':         [645,185,4],
+  'Singapore':     [822,237,4],
+  'Djibouti':      [590,217,4],
+  'Brunei':        [835,235,4],
+  'Fiji':          [950,308,5],
+};
+
+function renderMap(articles) {
   // Build article count per country
   const cmap = {};
   articles.forEach(a => {
@@ -2052,6 +2334,41 @@ function renderMap(articles) {
       cmap[c] = (cmap[c] || 0) + 1;
     });
   });
+
+  const riskClass = r => {
+    if (r === 'red')   return 'svg-risk-red';
+    if (r === 'amber') return 'svg-risk-amber';
+    if (r === 'teal')  return 'svg-risk-teal';
+    return 'svg-risk-none';
+  };
+
+  // ── Render SVG map ──
+  const svgEl = document.getElementById('crisis-map-svg');
+  if (svgEl) {
+    let svgInner = '';
+    for (const [name, d] of Object.entries(MAP_PATHS)) {
+      if (!d) continue;
+      const lookupName = MAP_NAME_MAP[name] || name;
+      const risk = RISK[lookupName] || null;
+      const count = cmap[lookupName] || 0;
+      const cls = riskClass(risk);
+      const tooltip = `${name}: ${count > 0 ? count + ' articles' : (risk ? risk + ' risk' : 'no data')}`;
+      svgInner += `<path class="${cls}" d="${d}" opacity=".82"><title>${tooltip}</title></path>`;
+    }
+    for (const [name, [cx,cy,r]] of Object.entries(MAP_CIRCLES)) {
+      const lookupName = MAP_NAME_MAP[name] || name;
+      const risk = RISK[lookupName] || null;
+      const count = cmap[lookupName] || 0;
+      const cls = riskClass(risk);
+      const tooltip = `${name}: ${count > 0 ? count + ' articles' : (risk ? risk + ' risk' : 'no data')}`;
+      svgInner += `<circle class="${cls}" cx="${cx}" cy="${cy}" r="${r}" opacity=".9"><title>${tooltip}</title></circle>`;
+    }
+    svgEl.innerHTML = svgInner;
+  }
+
+  // ── Render tile grid (supplementary detail view below SVG) ──
+  const mapEl = document.getElementById('crisis-map');
+  if (!mapEl) return;
 
   const riskTile = r => {
     if (r === 'red')   return 'mt-red';
@@ -2140,15 +2457,22 @@ async function runUpdate() {
     ['https://feeds.bbci.co.uk/news/world/rss.xml', 'BBC World'],
     ['https://feeds.bbci.co.uk/news/business/rss.xml', 'BBC Business'],
     ['https://rss.nytimes.com/services/xml/rss/nyt/World.xml', 'NY Times'],
-    ['https://feeds.reuters.com/Reuters/worldNews', 'Reuters'],
+    // Reuters feed dead (DNS gone) — removed to prevent console errors
     ['https://www.theguardian.com/world/rss', 'The Guardian'],
     // Energy & commodities
     ['https://oilprice.com/rss/main', 'OilPrice'],
     ['https://www.hellenicshippingnews.com/feed/', 'Hellenic Shipping'],
   ];
 
-  // Fetch prices in parallel (non-blocking)
-  fetchAllPrices().then(renderPrices).catch(()=>{});
+  // Fetch Yahoo prices (baselines + initial display), then start real-time crypto loop
+  fetchAllPrices().then(p => {
+    renderPrices(p);
+    // Start real-time crypto price loop after Yahoo baselines are stored
+    cryptoPriceLoop();
+  }).catch(() => {
+    // Even if Yahoo fails, try crypto sources
+    cryptoPriceLoop();
+  });
 
   // Fetch news
   const results = await Promise.allSettled([
@@ -2234,7 +2558,7 @@ function startCountdown() {
   // ─── HIDE EMPTY AD SLOTS WHEN EZOIC NOT CONFIGURED ───
   if (typeof ezoicSiteId === 'undefined' || ezoicSiteId === 'XXXXXXX') {
     document.querySelectorAll('.ez-slot, .ez-slot-sidebar').forEach(el => {
-      if (el.parentElement) el.parentElement.style.display = 'none';
+      el.style.display = 'none';
     });
   }
 
