@@ -5,6 +5,12 @@
 [functions]
   node_bundler = "esbuild"
 
+[[redirects]]
+  from = "/ads.txt"
+  to = "https://srv.adstxtmanager.com/19390/global-news-events.com"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
