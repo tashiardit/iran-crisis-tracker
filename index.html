@@ -287,7 +287,9 @@ h1 .accent { color: var(--red); }
 }
 .chg-up { color: var(--red); }
 .chg-dn { color: var(--teal); }
-.price-divider { width:1px; height:36px; background:var(--border); flex-shrink:0; }
+.price-cmp{display:flex;gap:8px;font-family:var(--mono);font-size:9px;margin-top:2px;}
+.price-cmp span{opacity:.85;}
+.price-divider { width:1px; height:50px; background:var(--border); flex-shrink:0; }
 .price-note {
   margin-left:auto;
   font-family:var(--mono);
@@ -916,24 +918,28 @@ footer {
       <div class="price-symbol">Brent Crude</div>
       <div class="price-val" id="p-brent">—</div>
       <div class="price-chg" id="p-brent-chg">Loading…</div>
+      <div class="price-cmp" id="p-brent-cmp"></div>
     </div>
     <div class="price-divider"></div>
     <div class="price-block">
       <div class="price-symbol">WTI Crude</div>
       <div class="price-val" id="p-wti">—</div>
       <div class="price-chg" id="p-wti-chg">Loading…</div>
+      <div class="price-cmp" id="p-wti-cmp"></div>
     </div>
     <div class="price-divider"></div>
     <div class="price-block">
       <div class="price-symbol">TTF Gas (EU)</div>
       <div class="price-val" id="p-ttf">—</div>
       <div class="price-chg" id="p-ttf-chg">Loading…</div>
+      <div class="price-cmp" id="p-ttf-cmp"></div>
     </div>
     <div class="price-divider"></div>
     <div class="price-block">
       <div class="price-symbol">US Nat. Gas</div>
       <div class="price-val" id="p-ng">—</div>
       <div class="price-chg" id="p-ng-chg">Loading…</div>
+      <div class="price-cmp" id="p-ng-cmp"></div>
     </div>
     <div class="price-divider"></div>
     <div class="price-block">
@@ -946,18 +952,21 @@ footer {
       <div class="price-symbol">Wheat (CBOT)</div>
       <div class="price-val" id="p-wheat">—</div>
       <div class="price-chg" id="p-wheat-chg">Loading…</div>
+      <div class="price-cmp" id="p-wheat-cmp"></div>
     </div>
     <div class="price-divider"></div>
     <div class="price-block">
       <div class="price-symbol">Corn (CBOT)</div>
       <div class="price-val" id="p-corn">—</div>
       <div class="price-chg" id="p-corn-chg">Loading…</div>
+      <div class="price-cmp" id="p-corn-cmp"></div>
     </div>
     <div class="price-divider"></div>
     <div class="price-block">
       <div class="price-symbol">Rice (CBOT)</div>
       <div class="price-val" id="p-rice">—</div>
       <div class="price-chg" id="p-rice-chg">Loading…</div>
+      <div class="price-cmp" id="p-rice-cmp"></div>
     </div>
     <div class="price-note">
       Prices via Yahoo Finance<br>
@@ -1767,13 +1776,35 @@ function switchView(view) {
 
 /* ─── PRICE FETCHING ─── */
 async function fetchPrice(symbol) {
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=2d`;
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=6mo`;
   const raw = await fetchViaProxy(url);
   const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-  const meta = parsed.chart.result[0].meta;
+  const result = parsed.chart.result[0];
+  const meta = result.meta;
+  const timestamps = result.timestamp || [];
+  const closes = result.indicators?.quote?.[0]?.close || [];
+  // Find historical reference prices
+  const JAN1 = new Date('2026-01-02T00:00:00Z').getTime()/1000;
+  const FEB27 = new Date('2026-02-27T00:00:00Z').getTime()/1000;
+  let jan1Price = null, feb27Price = null;
+  for (let i = 0; i < timestamps.length; i++) {
+    if (closes[i] != null) {
+      if (!jan1Price && timestamps[i] >= JAN1) jan1Price = closes[i];
+      if (!feb27Price && timestamps[i] >= FEB27) feb27Price = closes[i];
+    }
+  }
+  // Use previous day close (second-to-last valid close) to avoid rice prev bug
+  let prev = meta.chartPreviousClose || meta.regularMarketPrice;
+  if (closes.length >= 2) {
+    for (let i = closes.length - 2; i >= 0; i--) {
+      if (closes[i] != null) { prev = closes[i]; break; }
+    }
+  }
   return {
     value: meta.regularMarketPrice,
-    prev:  meta.chartPreviousClose || meta.regularMarketPrice
+    prev,
+    jan1: jan1Price,
+    feb27: feb27Price,
   };
 }
 
@@ -1797,7 +1828,7 @@ async function fetchAllPrices() {
 }
 
 function renderPrices(p) {
-  function fmt(v, prev, unit, id, sid, prefix='') {
+  function fmt(v, prev, unit, id, sid, prefix='', data=null) {
     if (!v) return;
     const chg = (v - prev).toFixed(2);
     const pct = ((Math.abs(chg) / prev) * 100).toFixed(1);
@@ -1807,16 +1838,24 @@ function renderPrices(p) {
     document.getElementById(id).className = 'price-val ' + cls;
     const chgEl = document.getElementById(id+'-chg');
     if (chgEl) { chgEl.textContent = `${arrow} ${Math.abs(chg)} (${pct}%) ${unit}`; chgEl.className = 'price-chg ' + cls; }
+    // Historical comparisons
+    const cmpEl = document.getElementById(id+'-cmp');
+    if (cmpEl && data) {
+      let html = '';
+      if (data.jan1) { const jp = ((v - data.jan1)/data.jan1*100).toFixed(1); const jc = jp >= 0 ? 'chg-up' : 'chg-dn'; html += `<span class="${jc}">YTD: ${jp>=0?'+':''}${jp}%</span>`; }
+      if (data.feb27) { const wp = ((v - data.feb27)/data.feb27*100).toFixed(1); const wc = wp >= 0 ? 'chg-up' : 'chg-dn'; html += `<span class="${wc}">War: ${wp>=0?'+':''}${wp}%</span>`; }
+      cmpEl.innerHTML = html;
+    }
     const sEl = document.getElementById(sid);
     if (sEl) sEl.textContent = prefix + v.toFixed(2) + ' ' + unit;
   }
-  if (p.brent) fmt(p.brent.value, p.brent.prev, '/bbl', 'p-brent', 's-brent', '$');
-  if (p.wti)   fmt(p.wti.value,   p.wti.prev,   '/bbl', 'p-wti',   's-wti',   '$');
-  if (p.ttf)   fmt(p.ttf.value,   p.ttf.prev,   '/MWh', 'p-ttf',   's-ttf',   '€');
-  if (p.ng)    fmt(p.ng.value,    p.ng.prev,     '/MMBtu','p-ng',   's-ng',    '$');
-  if (p.wheat) fmt(p.wheat.value, p.wheat.prev,  '¢/bu',  'p-wheat','s-wheat', '');
-  if (p.corn)  fmt(p.corn.value,  p.corn.prev,   '¢/bu',  'p-corn', 's-corn',  '');
-  if (p.rice)  fmt(p.rice.value,  p.rice.prev,   '/cwt',  'p-rice', 's-rice',  '$');
+  if (p.brent) fmt(p.brent.value, p.brent.prev, '/bbl', 'p-brent', 's-brent', '$', p.brent);
+  if (p.wti)   fmt(p.wti.value,   p.wti.prev,   '/bbl', 'p-wti',   's-wti',   '$', p.wti);
+  if (p.ttf)   fmt(p.ttf.value,   p.ttf.prev,   '/MWh', 'p-ttf',   's-ttf',   '€', p.ttf);
+  if (p.ng)    fmt(p.ng.value,    p.ng.prev,     '/MMBtu','p-ng',   's-ng',    '$', p.ng);
+  if (p.wheat) fmt(p.wheat.value, p.wheat.prev,  '¢/bu',  'p-wheat','s-wheat', '', p.wheat);
+  if (p.corn)  fmt(p.corn.value,  p.corn.prev,   '¢/bu',  'p-corn', 's-corn',  '', p.corn);
+  if (p.rice)  fmt(p.rice.value,  p.rice.prev,   '/cwt',  'p-rice', 's-rice',  '$', p.rice);
   // Food panel prices
   function fmtFood(v, prev, unit, id, prefix='') {
     if (!v) return;
