@@ -750,7 +750,7 @@ footer {
   .price-symbol { font-size:8px; }
   .stats-grid { grid-template-columns:repeat(2,1fr); }
   .country-grid { grid-template-columns:1fr; }
-  .view-btn{font-size:9px;padding:10px 12px;}
+  .view-btn{font-size:8px;padding:10px 8px;}
   .status-bar { flex-wrap:wrap; gap:4px 8px; font-size:10px; padding:10px 14px; }
   .food-panel { padding:14px 16px; }
   .food-price { font-size:18px; }
@@ -806,6 +806,30 @@ footer {
 .cookie-reject{background:transparent;color:var(--muted2);border:1px solid var(--border2);}
 .cookie-btn:hover{opacity:.8;}
 @media(max-width:640px){.cookie-banner.show{flex-direction:column;text-align:center;}.cookie-btns{width:100%;justify-content:center;}}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;gap:6px;justify-content:center;padding:16px 0;flex-wrap:wrap;}
+.page-btn{font-family:var(--mono);font-size:11px;padding:6px 12px;border:1px solid var(--border);border-radius:3px;background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s;}
+.page-btn:hover{color:var(--text);border-color:var(--border2);}
+.page-btn.active{background:rgba(60,143,223,.15);color:var(--blue);border-color:var(--blue);}
+
+/* ── CRISIS MAP ── */
+.crisis-map{margin-top:14px;}
+.map-legend{display:flex;gap:16px;margin-bottom:16px;font-family:var(--mono);font-size:10px;color:var(--muted);flex-wrap:wrap;}
+.map-legend-item{display:flex;align-items:center;gap:6px;}
+.map-legend-dot{width:10px;height:10px;border-radius:2px;}
+.map-region{margin-bottom:20px;}
+.map-region-title{font-family:var(--head);font-size:14px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.map-grid{display:flex;flex-wrap:wrap;gap:4px;}
+.map-tile{width:64px;height:52px;border-radius:4px;padding:4px 6px;font-family:var(--mono);cursor:pointer;transition:all .15s;position:relative;overflow:hidden;border:1px solid transparent;}
+.map-tile:hover{transform:scale(1.08);z-index:2;border-color:rgba(255,255,255,.2);}
+.map-tile .mt-name{font-size:8px;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.3px;line-height:1.2;}
+.map-tile .mt-count{font-size:14px;font-weight:500;color:#fff;margin-top:2px;}
+.mt-red{background:rgba(224,61,60,.25);border-color:rgba(224,61,60,.3)!important;}
+.mt-amber{background:rgba(240,160,48,.2);border-color:rgba(240,160,48,.25)!important;}
+.mt-teal{background:rgba(32,181,132,.15);border-color:rgba(32,181,132,.2)!important;}
+.mt-none{background:rgba(255,255,255,.03);border-color:var(--border)!important;}
+@media(max-width:640px){.map-tile{width:56px;height:46px;}.map-tile .mt-name{font-size:7px;}.map-tile .mt-count{font-size:12px;}}
 </style>
 </head>
 <body>
@@ -958,7 +982,9 @@ footer {
     <!-- Page View Toggle -->
     <div class="view-toggle">
       <button class="view-btn active" onclick="switchView('crisis')" id="btn-crisis">Key Crisis Indicators</button>
-      <button class="view-btn" onclick="switchView('countries')" id="btn-countries">Country Impact Tracker</button>
+      <button class="view-btn" onclick="switchView('countries')" id="btn-countries">Country Impact</button>
+      <button class="view-btn" onclick="switchView('food')" id="btn-food">Food &amp; Inflation</button>
+      <button class="view-btn" onclick="switchView('map')" id="btn-map">World Crisis Map</button>
     </div>
 
     <!-- ═══ VIEW 1: KEY CRISIS INDICATORS ═══ -->
@@ -1057,10 +1083,25 @@ footer {
       <div class="skeleton-card"><div class="skeleton" style="width:25%;height:10px"></div><div class="skeleton" style="width:75%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:60%;height:12px;margin-top:4px"></div></div>
       <div class="skeleton-card"><div class="skeleton" style="width:35%;height:10px"></div><div class="skeleton" style="width:85%;height:16px;margin-top:4px"></div><div class="skeleton" style="width:70%;height:12px;margin-top:4px"></div></div>
     </div>
+    <div class="pagination" id="news-pagination"></div>
 
-    <!-- ═══ FOOD & INFLATION CRISIS ═══ -->
-    <div class="food-panel">
-      <div class="food-panel-head">🌾 Food & Inflation Crisis Monitor</div>
+    <!-- ═══ EZOIC AD — MID PAGE BANNER (placeholder 103) ═══ -->
+    <div style="text-align:center;margin:28px 0">
+      <div id="ezoic-pub-ad-placeholder-103" class="ez-slot"></div>
+    </div>
+
+    </div><!-- END view-crisis -->
+
+    <!-- ═══ VIEW 3: FOOD & INFLATION ═══ -->
+    <div id="view-food" class="view-section">
+
+    <div class="sec-head">
+      <span class="sec-title">Food &amp; Inflation Crisis</span>
+      <span class="sec-count">Live commodity prices + crisis alerts</span>
+    </div>
+
+    <div class="food-panel" style="margin-top:0">
+      <div class="food-panel-head">🌾 Food &amp; Inflation Crisis Monitor</div>
       <div class="food-grid">
         <div class="food-item">
           <div class="food-label">Wheat (CBOT)</div>
@@ -1101,18 +1142,35 @@ footer {
       </div>
       <div class="food-alerts" id="food-alerts">
         <div class="food-alert"><strong>WFP Alert:</strong> 345 million people facing acute food insecurity — up from 282M pre-crisis. 22 countries on famine watchlist.</div>
-        <div class="food-alert"><strong>Fertilizer Crisis:</strong> Hormuz closure blocks ~33% of seaborne fertilizer trade. QAFCO (Qatar) force majeure on all urea contracts. Spring planting at risk across South/SE Asia & East Africa.</div>
+        <div class="food-alert"><strong>Fertilizer Crisis:</strong> Hormuz closure blocks ~33% of seaborne fertilizer trade. QAFCO (Qatar) force majeure on all urea contracts. Spring planting at risk across South/SE Asia &amp; East Africa.</div>
         <div class="food-alert"><strong>Rationing:</strong> Bangladesh, Sri Lanka, Myanmar, Nepal enforcing food/fuel rationing. India banned urea exports. Ethiopia declared national food emergency.</div>
         <div class="food-alert"><strong>Inflation:</strong> FAO Food Price Index at 2022-era highs. Wheat +38%, rice +22% since Feb 28. Import-dependent nations face currency pressure compounding food costs.</div>
       </div>
     </div>
 
-    <!-- ═══ EZOIC AD — MID PAGE BANNER (placeholder 103) ═══ -->
-    <div style="text-align:center;margin:28px 0">
-      <div id="ezoic-pub-ad-placeholder-103" class="ez-slot"></div>
+    </div><!-- END view-food -->
+
+    <!-- ═══ VIEW 4: WORLD CRISIS MAP ═══ -->
+    <div id="view-map" class="view-section">
+
+    <div class="sec-head">
+      <span class="sec-title">World Crisis Map</span>
+      <span class="sec-count">Risk levels by country — auto-detected from news</span>
     </div>
 
-    </div><!-- END view-crisis -->
+    <div class="map-legend">
+      <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(224,61,60,.6)"></span>Critical</span>
+      <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(240,160,48,.6)"></span>High</span>
+      <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(32,181,132,.5)"></span>Medium</span>
+      <span class="map-legend-item"><span class="map-legend-dot" style="background:rgba(255,255,255,.08)"></span>No data</span>
+      <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)">Tile number = article count</span>
+    </div>
+
+    <div class="crisis-map" id="crisis-map">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);padding:20px">Loading map data…</div>
+    </div>
+
+    </div><!-- END view-map -->
 
     <!-- ═══ VIEW 2: COUNTRY IMPACT TRACKER ═══ -->
     <div id="view-countries" class="view-section">
@@ -1627,6 +1685,8 @@ let articlesByCountry = {};
 let countryMentions = {};
 let refreshTimer = null;
 let countdown = REFRESH_MS / 1000;
+let newsPage = 1;
+const NEWS_PER_PAGE = 50;
 
 /* ─── UTILITY ─── */
 function detectCountries(text) {
@@ -1820,13 +1880,28 @@ async function fetchRSS(feedUrl, sourceName) {
 }
 
 /* ─── RENDER NEWS ─── */
+function goNewsPage(n) {
+  newsPage = n;
+  renderNews(allArticles);
+  const el = document.getElementById('news-list');
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
 function renderNews(articles) {
   const el = document.getElementById('news-list');
+  const paginEl = document.getElementById('news-pagination');
   if (!articles.length) {
     el.innerHTML = '<div style="font-family:var(--mono);font-size:11px;color:var(--muted);padding:20px">No articles loaded yet. Retrying…</div>';
+    if (paginEl) paginEl.innerHTML = '';
     return;
   }
-  el.innerHTML = articles.slice(0, MAX_ARTICLES).map(a => {
+  const total = Math.min(articles.length, MAX_ARTICLES);
+  const totalPages = Math.ceil(total / NEWS_PER_PAGE);
+  if (newsPage > totalPages) newsPage = 1;
+  const start = (newsPage - 1) * NEWS_PER_PAGE;
+  const pageArticles = articles.slice(start, start + NEWS_PER_PAGE);
+
+  el.innerHTML = pageArticles.map(a => {
     const tags = (a.countries||[]).slice(0,5).map(c => `<span class="nc-tag">${c}</span>`).join('');
     const src  = a.source || '';
     const ago  = a.ts ? timeAgo(a.ts) : '';
@@ -1838,6 +1913,18 @@ function renderNews(articles) {
       <div class="nc-tags">${tags}</div>
     </article>`;
   }).join('');
+
+  if (paginEl) {
+    if (totalPages <= 1) {
+      paginEl.innerHTML = '';
+    } else {
+      let btns = '';
+      for (let i = 1; i <= totalPages; i++) {
+        btns += `<button class="page-btn${i === newsPage ? ' active' : ''}" onclick="goNewsPage(${i})">${i}</button>`;
+      }
+      paginEl.innerHTML = btns;
+    }
+  }
 }
 
 /* ─── RENDER COUNTRIES ─── */
@@ -1898,6 +1985,62 @@ function renderCountries(articles) {
       <div class="cc-body">${links}</div>
     </div>`;
   }).join('');
+}
+
+/* ─── RENDER MAP ─── */
+const REGIONS = {
+  'Middle East & Central Asia': ['Iran','Iraq','Saudi Arabia','UAE','Qatar','Kuwait','Bahrain','Oman','Yemen','Israel','Jordan','Lebanon','Syria','Turkey','Afghanistan','Uzbekistan','Turkmenistan','Kazakhstan','Azerbaijan'],
+  'Europe': ['UK','France','Germany','Italy','Spain','Netherlands','Poland','Greece','Norway','Sweden','Belgium','Austria','Switzerland','Portugal','Czech Republic','Romania','Hungary','Finland','Denmark','Ireland','Slovenia','Croatia','Bulgaria','Ukraine','Lithuania','Latvia','Estonia','Slovakia','Serbia','Moldova','Belarus','Iceland','Luxembourg'],
+  'South & Southeast Asia': ['India','Pakistan','Bangladesh','Sri Lanka','Nepal','Myanmar','Thailand','Vietnam','Indonesia','Philippines','Malaysia','Singapore','Cambodia','Laos'],
+  'East Asia & Oceania': ['China','Japan','South Korea','Taiwan','Australia','New Zealand','Mongolia','Papua New Guinea','Fiji'],
+  'Africa': ['Nigeria','South Africa','Kenya','Egypt','Ethiopia','Tanzania','Ghana','Algeria','Morocco','Libya','Tunisia','Sudan','Somalia','Senegal','Mozambique','Angola','DR Congo','Cameroon','Ivory Coast','Uganda','Madagascar','Niger','Mali','Zimbabwe','Zambia','Rwanda','Namibia'],
+  'Americas': ['USA','Canada','Mexico','Brazil','Argentina','Colombia','Chile','Peru','Venezuela','Ecuador','Bolivia','Cuba','Dominican Republic','Guatemala','Honduras','Panama','Costa Rica','Uruguay','Paraguay','Trinidad and Tobago','Jamaica'],
+};
+
+// Map display name to COUNTRIES key where needed
+const MAP_NAME_MAP = {
+  'USA': 'United States',
+};
+
+function renderMap(articles) {
+  const mapEl = document.getElementById('crisis-map');
+  if (!mapEl) return;
+
+  // Build article count per country
+  const cmap = {};
+  articles.forEach(a => {
+    (a.countries||[]).forEach(c => {
+      cmap[c] = (cmap[c] || 0) + 1;
+    });
+  });
+
+  const riskTile = r => {
+    if (r === 'red')   return 'mt-red';
+    if (r === 'amber') return 'mt-amber';
+    if (r === 'teal')  return 'mt-teal';
+    return 'mt-none';
+  };
+
+  let html = '';
+  for (const [regionName, countries] of Object.entries(REGIONS)) {
+    html += `<div class="map-region">
+      <div class="map-region-title">${regionName}</div>
+      <div class="map-grid">`;
+    for (const displayName of countries) {
+      const lookupName = MAP_NAME_MAP[displayName] || displayName;
+      const count = cmap[lookupName] || 0;
+      const risk = RISK[lookupName] || null;
+      const tileCls = riskTile(risk);
+      const countStr = count > 0 ? count : (risk ? '—' : '·');
+      html += `<div class="map-tile ${tileCls}" title="${displayName}: ${count} articles">
+        <div class="mt-name">${displayName}</div>
+        <div class="mt-count">${countStr}</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  mapEl.innerHTML = html;
 }
 
 /* ─── RENDER TICKER ─── */
@@ -1992,6 +2135,7 @@ async function runUpdate() {
   renderNews(allArticles);
   renderTicker(allArticles);
   renderCountries(allArticles);
+  renderMap(allArticles);
 
   const now = new Date().toUTCString().replace('GMT','UTC');
   document.getElementById('last-update-time').textContent = now;
@@ -2031,6 +2175,7 @@ function startCountdown() {
     renderNews(cached);
     renderTicker(cached);
     renderCountries(cached);
+    renderMap(cached);
     document.getElementById('article-count').textContent = cached.length;
     setStatus('Loading from cache — fetching fresh data…', 'loading');
   }
